@@ -1,0 +1,17 @@
+{
+  "menadżer1": {
+    "stanowisko": "menadżer",
+    "placówka": 1,
+    "wynagrodzenie": 7000
+  },
+  "mechanik1": {
+    "stanowisko": "mechanik",
+    "placówka": 1,
+    "wynagrodzenie": 5000
+  },
+  "mechanik2": {
+    "stanowisko": "mechanik",
+    "placówka": 1,
+    "wynagrodzenie": 6000
+  }
+}
