@@ -1,6 +1,9 @@
 import json
+
+import numpy as np
 import pandas as pd
 
+from src.person.customer import Customer
 from src.person.employee import Employee
 
 with open("data\\parameters\\dates.json") as file:
@@ -8,7 +11,6 @@ with open("data\\parameters\\dates.json") as file:
 
 with open("data\\parameters\\employees.json") as file:
     employees = json.load(file)
-
 
 date_range = pd.date_range(dates["start"], periods=dates["length"]).to_pydatetime().tolist()
 date_range = [d for d in date_range if d.weekday() < 5]
@@ -19,7 +21,13 @@ employees_list = [Employee(*employees[k].values(),
 customers_list = []
 
 
-for day in date_range:
+def handle_order(order):
+    pass
+
+
+number_of_customers = np.random.randint(0, 3, size=len(date_range)) # inny rozkład
+
+for day, num in zip(date_range, number_of_customers):
     for employee in employees_list:
         if not employee.quit_date:
             if employee.quits(day.strftime('%d/%m/%Y')):
@@ -27,7 +35,10 @@ for day in date_range:
                                                salary=employee.salary,
                                                position=employee.position,
                                                facility=employee.facility))
+    new_customers = [Customer() for _ in range(num)]
+    for customer in new_customers:
+        order = customer.order()
+        handle_order(order)
+    customers_list.append(new_customers)
 
-
-print(len(employees_list))
-
+print(len(customers_list))
