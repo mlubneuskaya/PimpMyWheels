@@ -25,9 +25,10 @@ def handle_order(order):
     pass
 
 
-number_of_customers = np.random.randint(0, 3, size=len(date_range)) # inny rozkład
+new_customers_number = np.random.randint(0, 3, size=len(date_range))  # inny rozkład
+old_customers_number = np.random.randint(0, 1, size=len(date_range))
 
-for day, num in zip(date_range, number_of_customers):
+for day, num in zip(date_range, new_customers_number, old_customers_number):
     for employee in employees_list:
         if not employee.quit_date:
             if employee.quits(day.strftime('%d/%m/%Y')):
