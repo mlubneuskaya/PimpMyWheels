@@ -1,0 +1,3 @@
+{
+    "Test" : "CREATE OR REPLACE TABLE Test(id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Id transakcji') ENGINE=InnoDB, CHARACTER SET=utf8mb4, COLLATE=utf8mb4_polish_ci;"
+}
