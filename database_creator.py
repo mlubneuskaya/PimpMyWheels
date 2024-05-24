@@ -24,7 +24,26 @@ def create_tables(con):
         tables_creation_strings = json.load(file)
     
     mycursor = con.cursor()
-
-    #mycursor.execute(tables_creation_strings["Test"])
+    for table_name, table_creation_string in tables_creation_strings.items():
+        print(table_name)
+        mycursor.execute(table_creation_string)
     
     return "Stworzono tabele"
+
+
+def drop_all_tables(con):
+    with open("data\\parameters\\tables.json") as file:
+        tables_creation_strings = json.load(file)
+    mycursor = con.cursor()
+    for table_name, table_creation_string in tables_creation_strings.items():
+        #print(table_name)
+        mycursor.execute("DROP TABLE " + table_name)
+        print('Succesfully dropped' + table_name)
+    return 'All tables are droped'
+
+create_tables(create_connection())
+
+input('z')
+drop_all_tables(create_connection())
+
+
