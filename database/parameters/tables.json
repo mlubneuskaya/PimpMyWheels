@@ -1,0 +1,3 @@
+{
+    "tables": ["facilities", "employees", "clients", "vehicles", "transactions", "payments", "equipment", "complaints"]
+}

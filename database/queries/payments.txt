@@ -1,0 +1,14 @@
+CREATE OR REPLACE TABLE payments (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Id rozliczenia',
+    start_date DATE NOT NULL COMMENT 'Data rozpoczęcia',
+    end_date DATE COMMENT 'Data zakończenia',
+    parts_cost DECIMAL(8,2) NOT NULL COMMENT 'Koszt części',
+    work_cost DECIMAL(8,2) NOT NULL COMMENT 'Koszt pracy',
+    description TEXT COMMENT 'description',
+    vehicle_id INT UNSIGNED,
+    employee_id INT UNSIGNED,
+    transaction_id INT UNSIGNED,
+    FOREIGN KEY (vehicle_id) REFERENCES vehicles(id),
+    FOREIGN KEY (employee_id) REFERENCES employees(id),
+    FOREIGN KEY (transaction_id) REFERENCES transactions(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Rozliczenia kosztów renowacji lub napraw';
