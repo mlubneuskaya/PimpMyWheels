@@ -1,6 +1,9 @@
+from datetime import timedelta
+
 import pandas as pd
 import random
 import mimesis
+import scipy
 
 
 names = pd.read_csv("data\\names.csv")
@@ -26,3 +29,14 @@ def get_phone_number():
 
 def get_address():
     return mimesis.Address(locale=mimesis.Locale.PL).address()
+
+
+def get_birth_date(day):
+    min_age = 18
+    max_age = 80
+    avg_age = 30
+    scale = 15
+    a, b = (min_age - avg_age) / scale, (max_age - avg_age) / scale
+    age = scipy.stats.truncnorm.rvs(a=a, b=b, loc=avg_age, scale=scale)
+    return day - timedelta(days=age*365)
+

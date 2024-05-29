@@ -3,7 +3,7 @@ from datetime import date
 import sqlalchemy as sa
 from sqlalchemy.ext.declarative import declarative_base
 
-from src.utils.generator import get_name, get_phone_number, get_surname, get_address
+from src.models.generator import get_name, get_phone_number, get_surname, get_address, get_birth_date
 
 Base = declarative_base()
 
@@ -31,7 +31,7 @@ class Customer(Base):
         self.email = f"{self.name}.{self.surname}@customer.com"
         self.phone_number = get_phone_number()
         self.address = get_address()
-        self.birth_date = date.today()  # TODO age
+        self.birth_date = get_birth_date(day)
         self.account_creation_date = day
         self.account_deletion_date = None
         self.last_active = day
@@ -61,7 +61,7 @@ class Employee(Base):
         self.email = f"{self.name}.{self.surname}@pimpmywheels.com"
         self.phone_number = get_phone_number()
         self.address = get_address()
-        self.birth_date = date.today()  # TODO age
+        self.birth_date = get_birth_date(day)
         self.position = position
         self.hire_date = day
         self.resignation_date = None
