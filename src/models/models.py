@@ -8,6 +8,10 @@ from src.utils.generator import get_name, get_phone_number, get_surname, get_add
 Base = declarative_base()
 
 
+def get_base():
+    return Base
+
+
 class Customer(Base):
     __tablename__ = "customers"
     id = sa.Column('id', sa.Integer, primary_key=True)

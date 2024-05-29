@@ -6,12 +6,12 @@ import sqlalchemy as sa
 from dotenv import load_dotenv
 
 from src.emulation.emulation import emulate_day
-from src.models.models import Workshop, Employee, Customer
+from src.models.models import Workshop, Employee, Customer, Base
 
 with open("data\\parameters\\dates.json") as file:
     dates = json.load(file)
 
-with open("data\\parameters\\employees.json") as file:
+with open("data\\parameters\\employees.json", encoding='utf-8') as file:
     employees_data = json.load(file)
 
 
@@ -25,6 +25,8 @@ url_object = sa.URL.create(
 )
 
 conn = sa.create_engine(url_object)
+Base.metadata.create_all(conn)
+
 Session = sa.orm.sessionmaker(bind=conn)
 session = Session()
 

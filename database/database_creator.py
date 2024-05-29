@@ -53,7 +53,7 @@ for table in tables:
     with open(f"queries\\{table}.txt") as file:
         create_statements[table] = file.read()
 
-create_tables(create_connection(), create_statements)
+# create_tables(create_connection(), create_statements)
 
-# drop_all_tables(create_connection(), tables[:: -1])
+drop_all_tables(create_connection(), tables[:: -1])
 
