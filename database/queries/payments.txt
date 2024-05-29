@@ -12,3 +12,4 @@ CREATE OR REPLACE TABLE payments (
     FOREIGN KEY (employee_id) REFERENCES employees(id),
     FOREIGN KEY (transaction_id) REFERENCES transactions(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Rozliczenia kosztów renowacji lub napraw';
+

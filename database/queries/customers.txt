@@ -1,4 +1,4 @@
-CREATE OR REPLACE TABLE clients (
+CREATE OR REPLACE TABLE customers (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     surname VARCHAR(50) NOT NULL,
@@ -6,7 +6,7 @@ CREATE OR REPLACE TABLE clients (
     phone_number VARCHAR(12),
     birth_date DATE NOT NULL,
     address VARCHAR(50),
-    creation_date DATE NOT NULL,
-    deletion_date DATE,
+    account_creation_date DATE NOT NULL,
+    account_deletion_date DATE,
     last_active DATE NOT NULL
 ) ENGINE=InnoDB CHARACTER SET=utf8mb4 COLLATE=utf8mb4_polish_ci;

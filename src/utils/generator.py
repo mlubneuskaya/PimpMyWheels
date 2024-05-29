@@ -26,7 +26,3 @@ def get_phone_number():
 
 def get_address():
     return mimesis.Address(locale=mimesis.Locale.PL).address()
-
-
-def get_email(name, surname, domain):
-    return f'{name}.{surname}@{domain}.com'
