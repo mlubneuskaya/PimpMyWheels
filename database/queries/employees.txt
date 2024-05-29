@@ -9,7 +9,7 @@ CREATE OR REPLACE TABLE employees (
     workshop_id INT UNSIGNED,
     FOREIGN KEY (workshop_id) REFERENCES workshops(id),
     position VARCHAR(100) NOT NULL,
-    hire_date TIMESTAMP NOT NULL,
-    quit_date TIMESTAMP,
+    hire_date DATE NOT NULL,
+    quit_date DATE,
     salary DECIMAL(8, 2) NOT NULL
 ) ENGINE=InnoDB CHARACTER SET=utf8mb4 COLLATE=utf8mb4_polish_ci;

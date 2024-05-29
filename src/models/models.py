@@ -79,3 +79,11 @@ class Workshop(Base):
         self.stations_number = 0
         self.opening_date = date.today()
         self.closing_date = date.today()
+
+
+class Order:
+    pass
+
+
+class Complaint:
+    pass

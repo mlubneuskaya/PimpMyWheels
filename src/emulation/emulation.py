@@ -1,30 +1,22 @@
-
+from src.emulation.customer_decision_maker import create_order
+from src.emulation.employee_decision_maker import quits
 from src.models.models import Employee, Customer
 
 
-def orders_creation(new_customers, regular_customers):
-    pass
-
-
-def complaints_creation():
-    pass
-
-
-def emulation(workshop, employees, day):
-    employee_turnover(employees)
-    number_of_new_customers = 1
+def emulate_day(day, employees, customers, orders):
+    employee_turnover(day, employees)
+    number_of_new_customers = 1  # TODO regular customers
     new_customers = [Customer(day) for _ in range(number_of_new_customers)]
-    number_of_regular_customers = 0  # TODO regular customers
-    regular_customers = []
-    orders_creation(new_customers, regular_customers)
-    complaints_creation()
+    orders += [create_order(new_customer, day) for new_customer in new_customers]  # TODO add complaints
+    customers += new_customers
 
 
 def employee_turnover(day, employees_list):
-    for employee in employees_list:  # employees turnover function
+    for employee in employees_list:
         if not employee.quit_date:
-            if employee.quits(day.strftime('%d/%m/%Y')):
-                employees_list.append(Employee(hire_date=day.strftime('%d/%m/%Y'),
-                                               salary=employee.salary,
+            if quits(employee, day):
+                employee.quit_date = day
+                employees_list.append(Employee(workshop=employee.workshop,
+                                               day=day,
                                                position=employee.position,
-                                               facility=employee.facility))
+                                               salary=employee.salary))

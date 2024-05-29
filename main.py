@@ -1,11 +1,11 @@
 import json
 import os
-from datetime import date
 
 import pandas as pd
 import sqlalchemy as sa
 from dotenv import load_dotenv
 
+from src.emulation.emulation import emulate_day
 from src.models.models import Workshop, Employee, Customer
 
 with open("data\\parameters\\dates.json") as file:
@@ -14,9 +14,6 @@ with open("data\\parameters\\dates.json") as file:
 with open("data\\parameters\\employees.json") as file:
     employees_data = json.load(file)
 
-
-date_range = pd.date_range(dates["start"], periods=dates["length"]).to_pydatetime().tolist()
-date_range = [d for d in date_range if d.weekday() < 5]
 
 load_dotenv()
 url_object = sa.URL.create(
@@ -31,13 +28,18 @@ conn = sa.create_engine(url_object)
 Session = sa.orm.sessionmaker(bind=conn)
 session = Session()
 
-workshop1 = Workshop()
+date_range = pd.date_range(dates["start"], periods=10).to_pydatetime().tolist()
+date_range = [d for d in date_range if d.weekday() < 5]
 
-employees = [Employee(workshop1, date.today(), *employees_data[k].values()) for k in employees_data.keys()]
+workshop = Workshop()
+employees = [Employee(workshop, dates["start"], *employees_data[k].values()) for k in employees_data.keys()]
+customers = []
+orders = []
 
-customers = [Customer(date.today()), Customer(date.today())]
+for day in date_range:
+    emulate_day(day, employees, customers, orders)
 
 session.add_all(customers)
-session.add(workshop1)
+session.add(workshop)
 session.add_all(employees)
 session.commit()
