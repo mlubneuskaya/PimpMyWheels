@@ -49,7 +49,7 @@ class Employee(Base):
     workshop_id = sa.orm.mapped_column(sa.ForeignKey("workshops.id"))
     position = sa.Column('position', sa.String(100))
     hire_date = sa.Column('hire_date', sa.Date)
-    quit_date = sa.Column('quit_date', sa.Date)
+    resignation_date = sa.Column('resignation_date', sa.Date)
     salary = sa.Column('salary', sa.Float(precision=2))
 
     workshop = sa.orm.relationship("Workshop")
@@ -64,7 +64,7 @@ class Employee(Base):
         self.birth_date = date.today()  # TODO age
         self.position = position
         self.hire_date = day
-        self.quit_date = None
+        self.resignation_date = None
         self.salary = salary
 
 

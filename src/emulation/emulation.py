@@ -1,5 +1,5 @@
 from src.emulation.customer_decision_maker import create_order
-from src.emulation.employee_decision_maker import quits
+from src.emulation.employee_decision_maker import resigns
 from src.models.models import Employee, Customer
 
 
@@ -13,9 +13,9 @@ def emulate_day(day, employees, customers, orders):
 
 def employee_turnover(day, employees_list):
     for employee in employees_list:
-        if not employee.quit_date:
-            if quits(employee, day):
-                employee.quit_date = day
+        if not employee.resignation_date:
+            if resigns(employee, day):
+                employee.resignation_date = day
                 employees_list.append(Employee(workshop=employee.workshop,
                                                day=day,
                                                position=employee.position,

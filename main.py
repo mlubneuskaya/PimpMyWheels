@@ -6,7 +6,7 @@ import sqlalchemy as sa
 from dotenv import load_dotenv
 
 from src.emulation.emulation import emulate_day
-from src.models.models import Workshop, Employee, Customer, Base
+from src.models.models import Workshop, Employee, Base
 
 with open("data\\parameters\\dates.json") as file:
     dates = json.load(file)
