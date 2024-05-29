@@ -1,14 +1,14 @@
 {
   "menadżer1": {
-    "stanowisko": "menadżer",
+    "stanowisko": "MENADŻER",
     "wynagrodzenie": 7000
   },
   "mechanik1": {
-    "stanowisko": "mechanik",
+    "stanowisko": "MECHANIK",
     "wynagrodzenie": 5000
   },
   "mechanik2": {
-    "stanowisko": "mechanik",
+    "stanowisko": "MECHANIK",
     "wynagrodzenie": 6000
   }
 }

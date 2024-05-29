@@ -25,6 +25,7 @@ url_object = sa.URL.create(
 )
 
 conn = sa.create_engine(url_object)
+Base.metadata.drop_all(conn)
 Base.metadata.create_all(conn)
 
 Session = sa.orm.sessionmaker(bind=conn)
