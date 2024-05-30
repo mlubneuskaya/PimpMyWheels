@@ -1,8 +1,6 @@
 import json
 import os
 
-from src.models.generator import UniquePersonalData
-
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 import pandas as pd

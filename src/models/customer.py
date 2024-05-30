@@ -1,7 +1,7 @@
 import sqlalchemy as sa
 from unidecode import unidecode
 
-from src.models.generator import get_phone_number, get_address, get_birth_date, get_unique_name_surname
+from src.models.personal_data_generator import get_phone_number, get_address, get_birth_date, get_unique_name_surname
 from src.models.base import Base
 
 
