@@ -74,3 +74,14 @@ def get_description():
     parts_cost = selected_description['parts_cost']
     work_cost = selected_description['work_cost']
     return description, parts_cost, work_cost
+
+
+def get_description_date(day):
+    customer_date = day
+    creation_date = day + timedelta(days=60)
+    start_date = customer_date + timedelta(days=random.randint(1, (creation_date - customer_date).days))
+    
+    if random.choice([True, False]):
+        return start_date, start_date + timedelta(days=random.randint(1, 30))
+    else:
+        return start_date, None  

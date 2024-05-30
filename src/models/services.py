@@ -8,7 +8,7 @@ from src.models.customer import Customer
 from datetime import timedelta
 import random
 
-from personal_data_generator import get_description
+from personal_data_generator import get_description, get_description_date
 
 
 class Services:
@@ -28,19 +28,8 @@ class Services:
     def __init__(self, employee, transaction):
         self.employee = employee
         self.description = get_description()[0]
-        self.start_date = self.generate_start_date(Customer.account_creation_date)
-        self.end_date = self.generate_end_date(self.start_date)
+        self.start_date = get_description_date(Customer.account_creation_date)[0]
+        self.end_date = get_description_date(Customer.account_creation_date)[1]
         self.parts_cost = get_description()[1]
         self.work_cost = get_description()[2]
         self.transaction = transaction
-        
-    def generate_start_date(self, account_creation_date):
-        start = account_creation_date
-        end = account_creation_date + timedelta(days=60)
-        return start + timedelta(days=random.randint(1, (end - start).days))
-    
-    def generate_end_date(self, start_date):
-        if random.choice([True, False]):
-            return start_date + timedelta(days=random.randint(1, 30))
-        else:
-            return None
