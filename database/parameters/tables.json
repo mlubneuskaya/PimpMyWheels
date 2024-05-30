@@ -1,3 +1,0 @@
-{
-    "tables": ["workshops", "employees", "customers", "vehicles", "transactions", "payments", "equipment", "complaints"]
-}

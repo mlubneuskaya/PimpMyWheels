@@ -1,10 +1,10 @@
 from src.emulation.customer_decision_maker import create_order
 from src.emulation.employee_decision_maker import resigns
-from src.models.models import Employee, Customer
+from src.models.employee import Employee
+from src.models.customer import Customer
 
 
 def emulate_day(day, employees, customers, orders):
-    print(day)
     employee_turnover(day, employees)
     number_of_new_customers = 1  # TODO regular customers
     new_customers = [Customer(day) for _ in range(number_of_new_customers)]

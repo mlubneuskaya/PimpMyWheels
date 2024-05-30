@@ -1,8 +1,0 @@
-CREATE OR REPLACE TABLE equipment (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Id wyposażenia',
-    name VARCHAR(255) NOT NULL COMMENT 'Nazwa',
-    type VARCHAR(50) NOT NULL COMMENT 'Typ',
-    number_in_stock INT NOT NULL COMMENT 'Ilość na stanie',
-    workshop_id INT UNSIGNED NOT NULL COMMENT 'Id placówki',
-    FOREIGN KEY (workshop_id) REFERENCES workshops(id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Posiadane wyposażenie i części';
