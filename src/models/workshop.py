@@ -1,7 +1,7 @@
-from datetime import date
-
 import sqlalchemy as sa
 from src.models.base import Base
+
+from personal_data_generator import get_address, get_phone_number, get_stations_number
 
 
 class Workshop(Base):
@@ -11,11 +11,9 @@ class Workshop(Base):
     phone_number = sa.Column('phone_number', sa.String(15))
     stations_number = sa.Column('station_number', sa.Integer)
     opening_date = sa.Column('opening_date', sa.Date)
-    closing_date = sa.Column('closing_date', sa.Date)  # TODO why?
 
-    def __init__(self):
-        self.address = 'address'
-        self.phone_number = '111'
-        self.stations_number = 0
-        self.opening_date = date.today()
-        self.closing_date = date.today()
+    def __init__(self, day):
+        self.address = get_address()
+        self.phone_number = get_phone_number()
+        self.stations_number = get_stations_number()
+        self.opening_date = day

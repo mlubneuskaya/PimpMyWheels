@@ -63,6 +63,9 @@ def get_birth_date(day):
     age = scipy.stats.truncnorm.rvs(a=a, b=b, loc=avg_age, scale=scale)
     return day - timedelta(days=age * 365)
 
+def get_stations_number():
+    return int(random.randint(3, 5))
+
 def get_description():
     n = len(descriptions)
     mean = (n - 1) / 2

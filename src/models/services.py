@@ -8,13 +8,13 @@ from src.models.customer import Customer
 from datetime import timedelta
 import random
 
-from generat import get_description
+from personal_data_generator import get_description
 
 
 class Services:
     __tablename__ = "services"
     id = sa.Column('id', sa.Integer, primary_key=True)
-    employee_id = sa.orm.mapped_column(sa.ForeignKey("Employees.id"))
+    employee_id = sa.orm.mapped_column(sa.ForeignKey("Employee.id"))
     start_date = sa.Column('start_date', sa.Date)
     end_date = sa.Column('end_date', sa.Date)
     parts_cost = sa.Column('parts_cost', sa.Float(precision=2))
