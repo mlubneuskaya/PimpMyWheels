@@ -1,4 +1,9 @@
-from models import *
+import sqlalchemy as sa
+from sqlalchemy.orm import relationship
+
+from base import Base
+from src.models.generator import get_name, get_surname, get_phone_number, get_address, get_birth_date
+
 
 class Employee(Base):
     __tablename__ = "employees"

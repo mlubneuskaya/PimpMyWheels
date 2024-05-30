@@ -1,4 +1,8 @@
-from models import *
+from datetime import date
+
+import sqlalchemy as sa
+from base import Base
+
 
 class Workshop(Base):
     __tablename__ = "workshops"

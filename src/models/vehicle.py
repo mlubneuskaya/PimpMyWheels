@@ -1,4 +1,8 @@
-from models import *
+from sqlalchemy.orm import relationship
+
+from base import Base
+import sqlalchemy as sa
+
 
 class Vehicle(Base):
     __tablename__ = "vehicles"
@@ -13,4 +17,3 @@ class Vehicle(Base):
     def __init__(self, purchase_id, sale_id=None):
         self.purchase_id = purchase_id
         self.sale_id = sale_id
-        

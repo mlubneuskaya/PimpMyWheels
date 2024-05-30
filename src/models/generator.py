@@ -1,10 +1,9 @@
+import random
 from datetime import timedelta
 
-import pandas as pd
-import random
 import mimesis
+import pandas as pd
 import scipy
-
 
 names = pd.read_csv("data\\names.csv")
 female_surnames = pd.read_csv("data\\female_surnames.csv")
@@ -38,5 +37,4 @@ def get_birth_date(day):
     scale = 15
     a, b = (min_age - avg_age) / scale, (max_age - avg_age) / scale
     age = scipy.stats.truncnorm.rvs(a=a, b=b, loc=avg_age, scale=scale)
-    return day - timedelta(days=age*365)
-
+    return day - timedelta(days=age * 365)
