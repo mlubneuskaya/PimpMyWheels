@@ -4,7 +4,6 @@ from src.models.models import Employee, Customer
 
 
 def emulate_day(day, employees, customers, orders):
-    print(day)
     employee_turnover(day, employees)
     number_of_new_customers = 1  # TODO regular customers
     new_customers = [Customer(day) for _ in range(number_of_new_customers)]
