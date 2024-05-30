@@ -90,4 +90,43 @@ class Order:
 
 
 class Complaint:
-    pass
+    __tablename__ = "complaints"
+    id = sa.Column('id', sa.Integer, primary_key=True)
+    employee_id = sa.Column('employee_id type', sa.Integer)
+    service_id = sa.relationship("services", back_populates="id")
+    open_date = sa.Column('open_date', sa.Date)
+    closure_date = sa.Column('closure_date', sa.Date)
+    description = sa.Column('description', sa.String(25))
+    cost = sa.Column('cost', sa.DECIMAL(8, 2))
+
+    def __init__(self, id, employee_id, service_id, open_date, closure_date, description, cost):
+        self.id = id
+        self.employee_id = employee_id
+        self.service_id = service_id
+        self.open_date = open_date
+        self.closure_date = closure_date
+        self.description = description
+        self.cost = cost
+
+class TransactionTypes(sa.enum.Enum):
+    cash = 1
+    card = 2
+class Transaction:
+    __tablename__ = "transactions"
+    id = sa.Column('id', sa.Integer, primary_key=True)
+    transaction_type = sa.Column('transaction type', sa.Enum(TransactionTypes))
+    id_sender = sa.Column('sender id', sa.Integer)
+    id_recipient = sa.Column('recipient id', sa.Integer)
+    date = sa.Column('data', sa.Date)
+    topic = sa.Column('topic', sa.String(25))
+    value = sa.Column('value', sa.DECIMAL(8, 2))
+    
+    
+    def __init__(self, id, transaction_type, id_sender, id_recipient, date, topic, value):
+        self.id = id
+        self.transaction_type = transaction_type
+        self.id_sender = id_sender
+        self.id_recipient = id_recipient
+        self.date = date
+        self.topic = topic
+        self.value = value
