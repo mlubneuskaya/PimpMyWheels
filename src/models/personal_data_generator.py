@@ -5,10 +5,14 @@ import mimesis
 import pandas as pd
 import scipy
 from unidecode import unidecode
+import json
+from scipy.stats import norm
 
-names = pd.read_csv("data\\names.csv")
+names = pd.read_csv("data\\parameters\\description.json")
 female_surnames = pd.read_csv("data\\female_surnames.csv")
 male_surnames = pd.read_csv("data\\male_surnames.csv")
+with open("data\\description.json", "r") as file:
+    descriptions = json.load(file)
 
 
 class UniquePersonalData:
@@ -58,3 +62,18 @@ def get_birth_date(day):
     a, b = (min_age - avg_age) / scale, (max_age - avg_age) / scale
     age = scipy.stats.truncnorm.rvs(a=a, b=b, loc=avg_age, scale=scale)
     return day - timedelta(days=age * 365)
+
+def get_description():
+    n = len(descriptions)
+    mean = (n - 1) / 2
+    std_dev = n / 6
+    probabilities = [norm.pdf(i, mean, std_dev) for i in range(n)]
+    total = sum(probabilities)
+    probabilities = [p / total for p in probabilities]
+
+    # Randomly select a description based on the generated probabilities using random.choices
+    selected_description = random.choices(descriptions, weights=probabilities, k =1)[0]
+    description = selected_description['description']
+    parts_cost = selected_description['cost_of_parts']
+    work_cost = selected_description['cost_of_labor']
+    return description, parts_cost, work_cost

@@ -2,14 +2,23 @@ from src.emulation.customer_decision_maker import create_order
 from src.emulation.employee_decision_maker import resigns
 from src.models.employee import Employee
 from src.models.customer import Customer
+from PimpMyWheels.src.models.servises import Servises
+import random
 
 
-def emulate_day(day, employees, customers, orders):
+def emulate_day(day, employees, customers, orders, services):
     employee_turnover(day, employees)
     number_of_new_customers = 1  # TODO regular customers
     new_customers = [Customer(day) for _ in range(number_of_new_customers)]
     orders += [create_order(new_customer, day) for new_customer in new_customers]  # TODO add complaints
     customers += new_customers
+    
+    for customer in customers:
+        for employee in employees:
+            if random.choice([True, False]):  # Randomly decide to create a service
+                transaction = 1
+                service = Servises(employee, transaction)
+                services.append(service)
 
 
 def employee_turnover(day, employees_list):

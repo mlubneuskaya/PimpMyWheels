@@ -1,0 +1,78 @@
+[
+    {
+        "description": "Engine overhaul and tuning",
+        "cost_of_parts": 1500.0,
+        "cost_of_labor": 800.0
+    },
+    {
+        "description": "Transmission repair and fluid change",
+        "cost_of_parts": 1200.0,
+        "cost_of_labor": 600.0
+    },
+    {
+        "description": "Full body paint job",
+        "cost_of_parts": 500.0,
+        "cost_of_labor": 1000.0
+    },
+    {
+        "description": "Suspension system upgrade",
+        "cost_of_parts": 700.0,
+        "cost_of_labor": 400.0
+    },
+    {
+        "description": "Interior detailing and upholstery repair",
+        "cost_of_parts": 300.0,
+        "cost_of_labor": 400.0
+    },
+    {
+        "description": "Air conditioning system repair",
+        "cost_of_parts": 400.0,
+        "cost_of_labor": 200.0
+    },
+    {
+        "description": "Exhaust system replacement",
+        "cost_of_parts": 350.0,
+        "cost_of_labor": 250.0
+    },
+    {
+        "description": "Brake pad and rotor replacement",
+        "cost_of_parts": 300.0,
+        "cost_of_labor": 150.0
+    },
+    {
+        "description": "Windshield replacement",
+        "cost_of_parts": 250.0,
+        "cost_of_labor": 150.0
+    },
+    {
+        "description": "Fuel system cleaning and repair",
+        "cost_of_parts": 200.0,
+        "cost_of_labor": 180.0
+    },
+    {
+        "description": "Electrical system diagnostics and repair",
+        "cost_of_parts": 150.0,
+        "cost_of_labor": 220.0
+    },
+    {
+        "description": "Wheel alignment and tire rotation",
+        "cost_of_parts": 100.0,
+        "cost_of_labor": 80.0
+    },
+    
+    {
+        "description": "Battery replacement",
+        "cost_of_parts": 120.0,
+        "cost_of_labor": 50.0
+    },
+    {
+        "description": "Headlight and taillight restoration",
+        "cost_of_parts": 100.0,
+        "cost_of_labor": 60.0
+    },
+    {
+        "description": "Oil change and filter replacement",
+        "cost_of_parts": 50.0,
+        "cost_of_labor": 30.0
+    }
+]

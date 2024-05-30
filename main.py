@@ -42,9 +42,10 @@ workshop = Workshop()
 employees = [Employee(workshop, date_range[0], *employees_data[k].values()) for k in employees_data.keys()]
 customers = []
 orders = []
+services = []
 
 for day in date_range:
-    emulate_day(day, employees, customers, orders)
+    emulate_day(day, employees, customers, orders, services)
 
 session.add_all(customers)
 session.add(workshop)
