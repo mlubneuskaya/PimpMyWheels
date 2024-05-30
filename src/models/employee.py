@@ -1,8 +1,9 @@
 import sqlalchemy as sa
 from sqlalchemy.orm import relationship
+from unidecode import unidecode
 
 from src.models.base import Base
-from src.models.generator import get_name, get_surname, get_phone_number, get_address, get_birth_date
+from src.models.generator import get_phone_number, get_address, get_birth_date, get_unique_name_surname
 
 
 class Employee(Base):
@@ -24,9 +25,8 @@ class Employee(Base):
 
     def __init__(self, workshop, day, position, salary):
         self.workshop = workshop
-        self.name, sex = get_name()
-        self.surname = get_surname(sex)
-        self.email = f"{self.name}.{self.surname}@pimpmywheels.com"
+        self.name, self.surname = get_unique_name_surname()
+        self.email = f"{unidecode(self.name)}.{unidecode(self.surname)}@pimpmywheels.com"
         self.phone_number = get_phone_number()
         self.address = get_address()
         self.birth_date = get_birth_date(day)

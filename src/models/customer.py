@@ -1,5 +1,7 @@
 import sqlalchemy as sa
-from src.models.generator import get_name, get_surname, get_phone_number, get_address, get_birth_date
+from unidecode import unidecode
+
+from src.models.generator import get_phone_number, get_address, get_birth_date, get_unique_name_surname
 from src.models.base import Base
 
 
@@ -16,13 +18,12 @@ class Customer(Base):
     account_deletion_date = sa.Column('account_deletion_date', sa.Date)
     last_active = sa.Column('last_active', sa.Date)
 
-    def __init__(self, day):
-        self.name, sex = get_name()
-        self.surname = get_surname(sex)
-        self.email = f"{self.name}.{self.surname}@customer.com"
+    def __init__(self, date):
+        self.name, self.surname = get_unique_name_surname()
+        self.email = f"{unidecode(self.name)}.{unidecode(self.surname)}@customer.com"
         self.phone_number = get_phone_number()
         self.address = get_address()
-        self.birth_date = get_birth_date(day)
-        self.account_creation_date = day
+        self.birth_date = get_birth_date(date)
+        self.account_creation_date = date
         self.account_deletion_date = None
-        self.last_active = day
+        self.last_active = date

@@ -4,30 +4,50 @@ from datetime import timedelta
 import mimesis
 import pandas as pd
 import scipy
+from unidecode import unidecode
 
 names = pd.read_csv("data\\names.csv")
 female_surnames = pd.read_csv("data\\female_surnames.csv")
 male_surnames = pd.read_csv("data\\male_surnames.csv")
 
 
-def get_name():
-    _, name, gender, _ = names.sample(n=1, weights='frequency').iloc[0]
-    return name, gender
+class UniquePersonalData:
+    phone_numbers = set()
+    addresses = set()
+    name_surname_pairs = set()
 
 
-def get_surname(gender):
-    if gender == "F":
-        return female_surnames.sample(n=1, weights='frequency').surname.iloc[0]
+def get_name_surname():
+    _, name, sex, _ = names.sample(n=1, weights='frequency').iloc[0]
+    if sex == "F":
+        surname = female_surnames.sample(n=1, weights='frequency').surname.iloc[0]
     else:
-        return male_surnames.sample(n=1, weights='frequency').surname.iloc[0]
+        surname = male_surnames.sample(n=1, weights='frequency').surname.iloc[0]
+    return name, surname
+
+
+def get_unique_name_surname():
+    name, surname = get_name_surname()
+    while f"{unidecode(name)}{unidecode(surname)}" in UniquePersonalData.name_surname_pairs:
+        name, surname = get_name_surname()
+    UniquePersonalData.name_surname_pairs.add(f"{unidecode(name)}{unidecode(surname)}")
+    return name, surname
 
 
 def get_phone_number():
-    return str(random.randint(100000000, 999999999))
+    phone_number = str(random.randint(100000000, 999999999))
+    while phone_number in UniquePersonalData.phone_numbers:
+        phone_number = str(random.randint(100000000, 999999999))
+    UniquePersonalData.phone_numbers.add(phone_number)
+    return phone_number
 
 
 def get_address():
-    return mimesis.Address(locale=mimesis.Locale.PL).address()
+    address = mimesis.Address(locale=mimesis.Locale.PL).address()
+    while address in UniquePersonalData.addresses:
+        address = mimesis.Address(locale=mimesis.Locale.PL).address()
+    UniquePersonalData.addresses.add(address)
+    return address
 
 
 def get_birth_date(day):
