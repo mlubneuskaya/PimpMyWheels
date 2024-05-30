@@ -1,0 +1,11 @@
+CREATE OR REPLACE TABLE transactions (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Id transakcji',
+    transaction_type ENUM('cash', 'card') NOT NULL,
+    id_sender INT UNSIGNED,
+    FOREIGN KEY (id_sender) REFERENCES customers(id),
+    id_recipient INT UNSIGNED,
+    FOREIGN KEY (id_recipient) REFERENCES customers(id),
+    date TIMESTAMP NOT NULL COMMENT 'Data rozliczenia',
+    topic CHAR(25) NOT NULL COMMENT 'Opis transkcji(komentarz)',
+    value DECIMAL(8,2) NOT NULL COMMENT 'ilość przelanych środków'
+) ENGINE=InnoDB CHARACTER SET=utf8mb4 COLLATE=utf8mb4_polish_ci;

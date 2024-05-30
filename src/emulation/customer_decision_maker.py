@@ -1,10 +1,9 @@
-from src.models.services import Services
-from src.models.complaint import Complaint
+from src.models.models import Order, Complaint
 
 
 def create_order(customer, day):
     customer.last_active = day
-    return Services()
+    return Order()
 
 
 def create_complaint(customer, day):

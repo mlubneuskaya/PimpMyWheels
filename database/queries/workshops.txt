@@ -1,0 +1,8 @@
+CREATE OR REPLACE TABLE workshops (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY COMMENT 'Id placówki',
+    address VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(15) NOT NULL,
+    station_number INT NOT NULL COMMENT 'Liczba stanowisk naprawczych',
+    opening_date TIMESTAMP NOT NULL,
+    closing_date TIMESTAMP
+) ENGINE=InnoDB CHARACTER SET=utf8mb4 COLLATE=utf8mb4_polish_ci;
