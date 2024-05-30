@@ -67,16 +67,10 @@ def get_stations_number():
     return int(random.randint(3, 5))
 
 def get_description():
-    n = len(descriptions)
-    mean = (n - 1) / 2
-    std_dev = n / 6
-    probabilities = [norm.pdf(i, mean, std_dev) for i in range(n)]
-    total = sum(probabilities)
-    probabilities = [p / total for p in probabilities]
+    probabilities = [desc['probability'] for desc in descriptions]
 
-    # Randomly select a description based on the generated probabilities using random.choices
-    selected_description = random.choices(descriptions, weights=probabilities, k =1)[0]
+    selected_description = random.choices(descriptions, weights=probabilities, k=1)[0]
     description = selected_description['description']
-    parts_cost = selected_description['cost_of_parts']
-    work_cost = selected_description['cost_of_labor']
+    parts_cost = selected_description['parts_cost']
+    work_cost = selected_description['work_cost']
     return description, parts_cost, work_cost
