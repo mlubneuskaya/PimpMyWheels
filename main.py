@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 from src.emulation.emulation import emulate_day
 from src.models.workshop import Workshop
 from src.models.employee import Employee
-from src.models.models import Base
+from src.models.base import Base
 
 with open(r"data\parameters\dates.json") as file:
     dates = json.load(file)
@@ -35,7 +35,7 @@ Base.metadata.create_all(conn)
 Session = sa.orm.sessionmaker(bind=conn)
 session = Session()
 
-date_range = pd.date_range(dates["start"], periods=10).to_pydatetime()#.tolist()
+date_range = pd.date_range(dates["start"], periods=10).to_pydatetime()  # .tolist()
 date_range = [d for d in date_range if d.weekday() < 5]
 
 workshop = Workshop()

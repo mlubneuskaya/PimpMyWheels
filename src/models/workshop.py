@@ -1,7 +1,7 @@
 from datetime import date
 
 import sqlalchemy as sa
-from base import Base
+from src.models.base import Base
 
 
 class Workshop(Base):

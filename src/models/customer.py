@@ -1,6 +1,6 @@
 import sqlalchemy as sa
 from src.models.generator import get_name, get_surname, get_phone_number, get_address, get_birth_date
-from base import Base
+from src.models.base import Base
 
 
 class Customer(Base):

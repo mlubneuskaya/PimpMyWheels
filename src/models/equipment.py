@@ -1,7 +1,8 @@
 from sqlalchemy.orm import relationship
 
-from base import Base
+from src.models.base import Base
 import sqlalchemy as sa
+
 
 class Equipment(Base):
     __tablename__ = "equipment"

@@ -1,6 +1,6 @@
 from sqlalchemy.orm import relationship
 
-from base import Base
+from src.models.base import Base
 import sqlalchemy as sa
 
 
