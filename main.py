@@ -35,7 +35,7 @@ Base.metadata.create_all(conn)
 Session = sa.orm.sessionmaker(bind=conn)
 session = Session()
 
-date_range = pd.date_range(dates["start"], periods=10).to_pydatetime()
+date_range = pd.date_range(dates["start"], periods=10).to_pydatetime()  # .tolist()
 date_range = [d for d in date_range if d.weekday() < 5]
 
 workshop = Workshop()
