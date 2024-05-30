@@ -1,19 +1,22 @@
 import json
 import os
 
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 import pandas as pd
 import sqlalchemy as sa
 from dotenv import load_dotenv
 
 from src.emulation.emulation import emulate_day
-from src.models.models import Workshop, Employee, Base
+from src.models.workshop import Workshop
+from src.models.employee import Employee
+from src.models.models import Base
 
-with open("data\\parameters\\dates.json") as file:
+with open(r"data\parameters\dates.json") as file:
     dates = json.load(file)
 
-with open("data\\parameters\\employees.json", encoding='utf-8') as file:
+with open(r"data\parameters\employees.json", encoding='utf-8') as file:
     employees_data = json.load(file)
-
 
 load_dotenv()
 url_object = sa.URL.create(
