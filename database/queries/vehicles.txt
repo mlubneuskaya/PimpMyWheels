@@ -1,5 +1,0 @@
-CREATE OR REPLACE TABLE vehicles (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    purchase_id INT UNSIGNED,
-    sale_id INT UNSIGNED
-) ENGINE=InnoDB CHARACTER SET=utf8mb4 COLLATE=utf8mb4_polish_ci;
