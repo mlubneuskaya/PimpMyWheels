@@ -2,7 +2,7 @@ from src.emulation.customer_decision_maker import create_order
 from src.emulation.employee_decision_maker import resigns
 from src.models.employee import Employee
 from src.models.customer import Customer
-from PimpMyWheels.src.models.servises import Servises
+from src.models.services import Services
 import random
 
 
@@ -17,7 +17,7 @@ def emulate_day(day, employees, customers, orders, services):
         for employee in employees:
             if random.choice([True, False]):  # Randomly decide to create a service
                 transaction = 1
-                service = Servises(employee, transaction)
+                service = Services(employee, transaction)
                 services.append(service)
 
 

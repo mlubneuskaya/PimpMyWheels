@@ -11,8 +11,8 @@ import random
 from generat import get_description
 
 
-class Servises:
-    __tablename__ = "serwices"
+class Services:
+    __tablename__ = "services"
     id = sa.Column('id', sa.Integer, primary_key=True)
     employee_id = sa.orm.mapped_column(sa.ForeignKey("Employees.id"))
     start_date = sa.Column('start_date', sa.Date)
