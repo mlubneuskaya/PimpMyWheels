@@ -1,7 +1,7 @@
 import sqlalchemy as sa
 
 class Complaint:
-    tablename = "complaints"
+    __tablename__ = "complaints"
     id = sa.Column('id', sa.Integer, primary_key=True)
     employee_id = sa.Column('employee_id type', sa.Integer)
     service_id = sa.relationship("services", back_populates="id")
