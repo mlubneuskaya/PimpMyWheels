@@ -8,10 +8,10 @@ from unidecode import unidecode
 import json
 from scipy.stats import norm
 
-names = pd.read_csv("data\\parameters\\description.json")
+names = pd.read_csv("data\\names.csv")
 female_surnames = pd.read_csv("data\\female_surnames.csv")
 male_surnames = pd.read_csv("data\\male_surnames.csv")
-with open("data\\description.json", "r") as file:
+with open("data\parameters\description.json", "r") as file:
     descriptions = json.load(file)
 
 
