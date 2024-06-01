@@ -55,6 +55,6 @@ for day in date_range:
 
 session.add_all(customers)
 session.add_all(workshop)
-session.add_all(employees)
 session.add_all(services)
+session.add_all(employees)
 session.commit()
