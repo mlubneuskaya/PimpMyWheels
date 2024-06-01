@@ -54,7 +54,7 @@ for day in date_range:
     emulate_day(day, employees, customers, orders, services)
 
 session.add_all(customers)
-session.add(workshop)
+session.add_all(workshop)
 session.add_all(employees)
 session.add_all(services)
 session.commit()

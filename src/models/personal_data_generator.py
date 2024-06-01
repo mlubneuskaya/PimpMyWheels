@@ -77,9 +77,7 @@ def get_description():
 
 
 def get_description_date(day):
-    customer_date = day
-    creation_date = day + timedelta(days=60)
-    start_date = customer_date + timedelta(days=random.randint(1, (creation_date - customer_date).days))
+    start_date = day + timedelta(days=random.randint(1, 60))
     
     if random.choice([True, False]):
         return start_date, start_date + timedelta(days=random.randint(1, 30))

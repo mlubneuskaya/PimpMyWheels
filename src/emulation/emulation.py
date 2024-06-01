@@ -10,7 +10,7 @@ def emulate_day(day, employees, customers, orders, services):
     employee_turnover(day, employees)
     number_of_new_customers = 1  # TODO regular customers
     new_customers = [Customer(day) for _ in range(number_of_new_customers)]
-    orders += [create_order(new_customer, day) for new_customer in new_customers]  # TODO add complaints
+    #orders += [create_order(new_customer, day) for new_customer in new_customers]  # TODO add complaints
     customers += new_customers
     
     for customer in customers:

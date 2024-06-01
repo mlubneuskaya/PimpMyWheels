@@ -21,7 +21,7 @@ class Employee(Base):
     resignation_date = sa.Column('resignation_date', sa.Date)
     salary = sa.Column('salary', sa.Float(precision=2))
 
-    workshop = relationship("workshops")
+    workshop = relationship("Workshop")
 
     def __init__(self, workshop, day, position, salary):
         self.workshop = workshop
