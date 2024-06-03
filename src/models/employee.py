@@ -3,7 +3,8 @@ from sqlalchemy.orm import relationship
 from unidecode import unidecode
 
 from src.models.base import Base
-from src.models.personal_data_generator import get_phone_number, get_address, get_birth_date, get_unique_name_surname
+from src.generators.personal_data_generator import get_phone_number, get_address, get_birth_date, \
+    get_unique_name_surname, get_salary
 
 
 class Employee(Base):
@@ -23,7 +24,7 @@ class Employee(Base):
 
     workshop = relationship("Workshop")
 
-    def __init__(self, workshop, day, position, salary):
+    def __init__(self, workshop, day, position, min_salary, avg_salary, max_salary):
         self.workshop = workshop
         self.name, self.surname = get_unique_name_surname()
         self.email = f"{unidecode(self.name)}.{unidecode(self.surname)}@pimpmywheels.com"
@@ -33,4 +34,7 @@ class Employee(Base):
         self.position = position
         self.hire_date = day
         self.resignation_date = None
-        self.salary = salary
+        self.min_salary = min_salary
+        self.avg_salary = avg_salary
+        self.max_salary = max_salary
+        self.salary = get_salary(min_salary, avg_salary, max_salary)

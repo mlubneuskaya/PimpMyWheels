@@ -1,14 +1,14 @@
 {
-  "menadżer1": {
-    "stanowisko": "MENADŻER",
-    "wynagrodzenie": 7000
+  "manager": {
+    "position": "MENADŻER",
+    "min_salary": 5000,
+    "avg_salary": 6450,
+    "max_salary": 10210
   },
-  "mechanik1": {
+  "mechanic": {
     "stanowisko": "MECHANIK",
-    "wynagrodzenie": 5000
-  },
-  "mechanik2": {
-    "stanowisko": "MECHANIK",
-    "wynagrodzenie": 6000
+    "min_salary": 4300,
+    "avg_salary": 5490,
+    "max_salary": 9000
   }
 }

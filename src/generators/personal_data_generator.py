@@ -11,7 +11,7 @@ from unidecode import unidecode
 names = pd.read_csv("data\\names.csv")
 female_surnames = pd.read_csv("data\\female_surnames.csv")
 male_surnames = pd.read_csv("data\\male_surnames.csv")
-with open("data\parameters\description.json", "r") as file:
+with open("data\\parameters\\description.json", "r") as file:
     descriptions = json.load(file)
 
 
@@ -85,3 +85,10 @@ def get_description_date(day):
         return start_date, start_date + timedelta(days=random.randint(1, 30))
     else:
         return start_date, None
+
+
+def get_salary(min_salary, avg_salary, max_salary):
+    scale = (avg_salary - min_salary) / 2
+    a, b = (min_salary - avg_salary) / scale, (max_salary - avg_salary) / scale
+    salary = scipy.stats.truncnorm.rvs(a=a, b=b, loc=avg_salary, scale=scale)
+    return round(salary, 0)

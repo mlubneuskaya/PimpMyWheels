@@ -1,17 +1,16 @@
 import json
 import os
 
+from src.generators.objects_generator import create_employees
+
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 import pandas as pd
 import sqlalchemy as sa
 from dotenv import load_dotenv
-import random
-from datetime import timedelta
 
 from src.emulation.emulation import emulate_day
 from src.models.workshop import Workshop
-from src.models.employee import Employee
 from src.models.base import Base
 
 with open(r"data\parameters\dates.json") as file:
@@ -40,12 +39,14 @@ session = Session()
 date_range = pd.date_range(dates["start"], periods=10).to_pydatetime()  # .tolist()
 date_range = [d for d in date_range if d.weekday() < 5]
 
-open_date1 = date_range[0]
-days_offset = random.randint(120, 240)  # 180 ± 60 days
-open_date2 = open_date1 + timedelta(days=days_offset)
+open_date = date_range[0]
+# days_offset = random.randint(120, 240)  # 180 ± 60 days
+# open_date2 = open_date1  # + timedelta(days=days_offset)
 
-workshop = [Workshop(open_date1), Workshop(open_date2)]
-employees = [Employee(workshop[0], date_range[0], *employees_data[k].values()) for k in employees_data.keys()]
+workshops = [Workshop(open_date), Workshop(open_date)]
+positions = [['manager'] + ['mechanic'] * workshop.stations_number for workshop in workshops]
+employees = sum([create_employees(workshop, pos, employees_data, date_range[0])
+                 for workshop, pos in zip(workshops, positions)], [])
 customers = []
 orders = []
 services = []
@@ -53,8 +54,9 @@ services = []
 for day in date_range:
     emulate_day(day, employees, customers, orders, services)
 
+
 session.add_all(customers)
-session.add_all(workshop)
+session.add_all(workshops)
 session.add_all(services)
 session.add_all(employees)
 session.commit()

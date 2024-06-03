@@ -29,4 +29,6 @@ def employee_turnover(day, employees_list):
                 employees_list.append(Employee(workshop=employee.workshop,
                                                day=day,
                                                position=employee.position,
-                                               salary=employee.salary))
+                                               min_salary=employee.min_salary,
+                                               avg_salary=employee.avg_salary,
+                                               max_salary=employee.max_salary))

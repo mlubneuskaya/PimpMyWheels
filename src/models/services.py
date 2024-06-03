@@ -2,7 +2,7 @@ import sqlalchemy as sa
 from sqlalchemy.orm import relationship
 
 from src.models.base import Base
-from src.models.personal_data_generator import get_description, get_description_date
+from src.generators.personal_data_generator import get_description, get_description_date
 
 
 class Services(Base):
