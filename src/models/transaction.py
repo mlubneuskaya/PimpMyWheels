@@ -1,8 +1,13 @@
 import sqlalchemy as sa
+
 from src.models.base import Base
+
+
 class TransactionTypes(sa.enum.Enum):
     cash = 1
     card = 2
+
+
 class Transaction(Base):
     __tablename__ = "transactions"
     id = sa.Column('id', sa.Integer, primary_key=True)
@@ -12,8 +17,7 @@ class Transaction(Base):
     date = sa.Column('data', sa.Date)
     topic = sa.Column('topic', sa.String(25))
     value = sa.Column('value', sa.DECIMAL(8, 2))
-    
-    
+
     def init(self, id, transaction_type, id_sender, id_recipient, date, topic, value):
         self.id = id
         self.transaction_type = transaction_type

@@ -1,7 +1,7 @@
+import sqlalchemy as sa
 from sqlalchemy.orm import relationship
 
 from src.models.base import Base
-import sqlalchemy as sa
 
 
 class Vehicle(Base):

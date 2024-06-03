@@ -9,7 +9,6 @@ names = names.drop(columns=['number'])
 
 names.to_csv("..\\..\\data\\names.csv")
 
-
 female_surnames = pd.read_csv("..\\..\\data\\raw\\female_surnames.csv", names=['surname', 'number'], header=0)
 female_surnames['frequency'] = female_surnames.number / female_surnames.number.sum()
 female_surnames = female_surnames.drop(columns=['number'])

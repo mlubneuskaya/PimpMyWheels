@@ -1,6 +1,6 @@
 import sqlalchemy as sa
-from src.models.base import Base
 
+from src.models.base import Base
 from src.models.personal_data_generator import get_address, get_phone_number, get_stations_number
 
 

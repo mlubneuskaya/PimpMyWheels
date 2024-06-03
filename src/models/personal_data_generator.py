@@ -1,12 +1,12 @@
+import json
 import random
 from datetime import timedelta
 
 import mimesis
 import pandas as pd
 import scipy
-from unidecode import unidecode
-import json
 from scipy.stats import norm
+from unidecode import unidecode
 
 names = pd.read_csv("data\\names.csv")
 female_surnames = pd.read_csv("data\\female_surnames.csv")
@@ -63,8 +63,10 @@ def get_birth_date(day):
     age = scipy.stats.truncnorm.rvs(a=a, b=b, loc=avg_age, scale=scale)
     return day - timedelta(days=age * 365)
 
+
 def get_stations_number():
     return int(random.randint(3, 5))
+
 
 def get_description():
     probabilities = [desc['probability'] for desc in descriptions]
@@ -78,8 +80,8 @@ def get_description():
 
 def get_description_date(day):
     start_date = day + timedelta(days=random.randint(1, 60))
-    
+
     if random.choice([True, False]):
         return start_date, start_date + timedelta(days=random.randint(1, 30))
     else:
-        return start_date, None  
+        return start_date, None

@@ -1,6 +1,8 @@
 import sqlalchemy as sa
 from sqlalchemy.orm import relationship
+
 from src.models.base import Base
+
 
 class Complaint(Base):
     __tablename__ = "complaints"
@@ -14,7 +16,7 @@ class Complaint(Base):
 
     service = relationship("Services")
     employee = relationship("Employee")
-    
+
     def init(self, employee, open_date, closure_date, description, cost, service):
         self.employee = employee
         self.open_date = open_date
