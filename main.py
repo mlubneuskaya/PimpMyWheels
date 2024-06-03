@@ -45,7 +45,7 @@ days_offset = random.randint(120, 240)  # 180 ± 60 days
 open_date2 = open_date1 + timedelta(days=days_offset)
 
 workshop = [Workshop(open_date1), Workshop(open_date2)]
-employees = [Employee(workshop, date_range[0], *employees_data[k].values()) for k in employees_data.keys()]
+employees = [Employee(workshop[0], date_range[0], *employees_data[k].values()) for k in employees_data.keys()]
 customers = []
 orders = []
 services = []

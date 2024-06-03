@@ -17,7 +17,7 @@ def emulate_day(day, employees, customers, orders, services):
         for employee in employees:
             if random.choice([True, False]):  # Randomly decide to create a service
                 transaction = 1
-                service = Services(employee, transaction)
+                service = Services(employee, transaction, customer)
                 services.append(service)
 
 

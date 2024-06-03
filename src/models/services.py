@@ -21,11 +21,11 @@ class Services(Base):
     employee = relationship("Employee")
     #transaction = relationship("transactions")
     
-    def __init__(self, employee, transaction):
+    def __init__(self, employee, transaction, customer):
         self.employee = employee
         self.description = get_description()[0]
-        self.start_date = get_description_date(Customer.account_creation_date)[0]
-        self.end_date = get_description_date(Customer.account_creation_date)[1]
+        self.start_date = get_description_date(customer.account_creation_date)[0]
+        self.end_date = get_description_date(customer.account_creation_date)[1]
         self.parts_cost = get_description()[1]
         self.work_cost = get_description()[2]
         #self.transaction = transaction

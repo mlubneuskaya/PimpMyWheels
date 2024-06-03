@@ -1,9 +1,9 @@
 import sqlalchemy as sa
-
+from src.models.base import Base
 class TransactionTypes(sa.enum.Enum):
     cash = 1
     card = 2
-class Transaction:
+class Transaction(Base):
     __tablename__ = "transactions"
     id = sa.Column('id', sa.Integer, primary_key=True)
     transaction_type = sa.Column('transaction type', sa.Enum(TransactionTypes))
