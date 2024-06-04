@@ -16,18 +16,18 @@ class TransactionTypes(sa.enum.Enum):
 class Transaction(Base):
     __tablename__ = "transactions"
     id = sa.Column('id', sa.Integer, primary_key=True)
-    transaction_type = sa.Column('transaction type', sa.Enum(TransactionMethod))
+    transaction_method = sa.Column('transaction_method', sa.Enum(TransactionMethod))
     other_party = sa.orm.mapped_column(sa.ForeignKey("customer.id"))
     date = sa.Column('data', sa.Date)
-    topic = sa.Column('topic', sa.Enum(TransactionTypes))
+    transaction_type = sa.Column('transaction_type', sa.Enum(TransactionTypes))
     value = sa.Column('value', sa.DECIMAL(8, 2))
 
     sender = sa.orm.relationship('Customer')
 
-    def init(self, id, transaction_type, other_party, date, topic, value):
+    def init(self, id, transaction_method, other_party, date, transaction_type, value):
         self.id = id
-        self.transaction_type = transaction_type
+        self.transaction_method = transaction_method
         self.other_party = other_party
         self.date = date
-        self.topic = topic
+        self.transaction_type = transaction_type
         self.value = value
