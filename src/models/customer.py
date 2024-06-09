@@ -8,9 +8,9 @@ from src.generators.personal_data_generator import get_phone_number, get_address
 class Customer(Base):
     __tablename__ = "customers"
     id = sa.Column('id', sa.Integer, primary_key=True)
-    name = sa.Column('name', sa.String(50))
-    surname = sa.Column('surname', sa.String(50))
-    email = sa.Column('email', sa.String(50))
+    name = sa.Column('name', sa.String(25))
+    surname = sa.Column('surname', sa.String(25))
+    email = sa.Column('email', sa.String(60))
     phone_number = sa.Column('phone_number', sa.String(12))
     birth_date = sa.Column('birth_date', sa.Date)
     address = sa.Column('address', sa.String(50))
