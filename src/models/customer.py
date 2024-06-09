@@ -7,14 +7,14 @@ from src.generators.personal_data_generator import get_phone_number, get_address
 
 class Customer(Base):
     __tablename__ = "customers"
-    id = sa.Column('id', sa.Integer, primary_key=True)
-    name = sa.Column('name', sa.String(25))
-    surname = sa.Column('surname', sa.String(25))
-    email = sa.Column('email', sa.String(60))
-    phone_number = sa.Column('phone_number', sa.String(12))
-    birth_date = sa.Column('birth_date', sa.Date)
-    address = sa.Column('address', sa.String(50))
-    account_creation_date = sa.Column('account_creation_date', sa.Date)
+    id = sa.Column('id', sa.Integer, primary_key=True, nullable=False, autoincrement=True)
+    name = sa.Column('name', sa.String(25), nullable=False)
+    surname = sa.Column('surname', sa.String(25), nullable=False)
+    email = sa.Column('email', sa.String(60), nullable=False)
+    phone_number = sa.Column('phone_number', sa.String(12), nullable=False)
+    birth_date = sa.Column('birth_date', sa.Date, nullable=False)
+    address = sa.Column('address', sa.String(50), nullable=False)
+    account_creation_date = sa.Column('account_creation_date', sa.Date, nullable=False)
     account_deletion_date = sa.Column('account_deletion_date', sa.Date)
     last_active = sa.Column('last_active', sa.Date)
 

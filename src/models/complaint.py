@@ -6,13 +6,13 @@ from src.models.base import Base
 
 class Complaint(Base):
     __tablename__ = "complaints"
-    id = sa.Column('id', sa.Integer, primary_key=True)
+    id = sa.Column('id', sa.Integer, primary_key=True, nullable=False, autoincrement=True)
     employee_id = sa.orm.mapped_column(sa.ForeignKey("employees.id"))
     service_id = sa.orm.mapped_column(sa.ForeignKey("services.id"))
-    open_date = sa.Column('open_date', sa.Date)
-    closure_date = sa.Column('closure_date', sa.Date)
-    description = sa.Column('description', sa.String(25))
-    cost = sa.Column('cost', sa.DECIMAL(8, 2))
+    open_date = sa.Column('open_date', sa.Date, nullable=False)
+    closure_date = sa.Column('closure_date', sa.Date, nullable=False)
+    description = sa.Column('description', sa.String(25), nullable=False)
+    cost = sa.Column('cost', sa.DECIMAL(8, 2), nullable=False)
 
     service = relationship("Services")
     employee = relationship("Employee")

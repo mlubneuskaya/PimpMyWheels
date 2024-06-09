@@ -15,12 +15,12 @@ class TransactionTypes(sa.enum.Enum):
 
 class Transaction(Base):
     __tablename__ = "transactions"
-    id = sa.Column('id', sa.Integer, primary_key=True)
-    transaction_method = sa.Column('transaction_method', sa.Enum(TransactionMethod))
-    other_party = sa.orm.mapped_column(sa.ForeignKey("customer.id"))
-    date = sa.Column('data', sa.Date)
-    transaction_type = sa.Column('transaction_type', sa.Enum(TransactionTypes))
-    value = sa.Column('value', sa.DECIMAL(8, 2))
+    id = sa.Column('id', sa.Integer, primary_key=True, nullable=False, autoincrement=True)
+    transaction_method = sa.Column('transaction_method', sa.Enum(TransactionMethod), nullable=False)
+    other_party = sa.orm.mapped_column(sa.ForeignKey("customer.id"), nullable=False)
+    date = sa.Column('data', sa.Date, nullable=False)
+    transaction_type = sa.Column('transaction_type', sa.Enum(TransactionTypes), nullable=False)
+    value = sa.Column('value', sa.DECIMAL(8, 2), nullable=False)
 
     sender = sa.orm.relationship('Customer')
 

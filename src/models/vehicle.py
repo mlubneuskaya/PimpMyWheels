@@ -7,8 +7,8 @@ from src.models.base import Base
 class Vehicle(Base):
     __tablename__ = "vehicles"
 
-    id = sa.Column(sa.SmallInteger, autoincrement=True, primary_key=True)
-    purchase_id = sa.Column(sa.Integer, sa.ForeignKey("transactions.id"))
+    id = sa.Column(sa.SmallInteger, autoincrement=True, primary_key=True, nullable=False)
+    purchase_id = sa.Column(sa.Integer, sa.ForeignKey("transactions.id", nullable=False))
     sale_id = sa.Column(sa.Integer, sa.ForeignKey("transactions.id"), nullable=True)
 
     purchase = relationship("Transaction", foreign_keys=[purchase_id])

@@ -7,14 +7,14 @@ from src.generators.personal_data_generator import get_description, get_descript
 
 class Services(Base):
     __tablename__ = "services"
-    id = sa.Column('id', sa.Integer, primary_key=True)
+    id = sa.Column('id', sa.Integer, primary_key=True, nullable=False, autoincrement=True)
     employee_id = sa.orm.mapped_column(sa.ForeignKey("employees.id"))
-    start_date = sa.Column('start_date', sa.Date)
-    end_date = sa.Column('end_date', sa.Date)
-    parts_cost = sa.Column('parts_cost', sa.DECIMAL(8, 2))
-    work_cost = sa.Column('work_cost', sa.DECIMAL(8, 2))
+    start_date = sa.Column('start_date', sa.Date, nullable=False)
+    end_date = sa.Column('end_date', sa.Date, nullable=False)
+    parts_cost = sa.Column('parts_cost', sa.DECIMAL(8, 2), nullable=False)
+    work_cost = sa.Column('work_cost', sa.DECIMAL(8, 2), nullable=False)
     # transaction_id = sa.orm.mapped_column(sa.ForeignKey("transactions.id"))
-    description = sa.Column('address', sa.Text)
+    description = sa.Column('address', sa.String(50), nullable=False)
 
     employee = relationship("Employee")
 

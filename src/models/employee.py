@@ -9,18 +9,18 @@ from src.generators.personal_data_generator import get_phone_number, get_address
 
 class Employee(Base):
     __tablename__ = "employees"
-    id = sa.Column('id', sa.Integer, primary_key=True)
-    name = sa.Column('name', sa.String(25))
-    surname = sa.Column('surname', sa.String(25))
-    email = sa.Column('email', sa.String(60))
-    phone_number = sa.Column('phone_number', sa.String(12))
-    birth_date = sa.Column('birth_date', sa.Date)
-    address = sa.Column('address', sa.String(50))
+    id = sa.Column('id', sa.Integer, primary_key=True, nullable=False, autoincrement=True)
+    name = sa.Column('name', sa.String(25), nullable=False)
+    surname = sa.Column('surname', sa.String(25), nullable=False)
+    email = sa.Column('email', sa.String(60), nullable=False)
+    phone_number = sa.Column('phone_number', sa.String(12), nullable=False)
+    birth_date = sa.Column('birth_date', sa.Date, nullable=False)
+    address = sa.Column('address', sa.String(50), nullable=False)
     workshop_id = sa.orm.mapped_column(sa.ForeignKey("workshops.id"))
-    position = sa.Column('position', sa.String(100))
-    hire_date = sa.Column('hire_date', sa.Date)
+    position = sa.Column('position', sa.String(100), nullable=False)
+    hire_date = sa.Column('hire_date', sa.Date, nullable=False)
     resignation_date = sa.Column('resignation_date', sa.Date)
-    salary = sa.Column('salary', sa.DECIMAL(8, 2))
+    salary = sa.Column('salary', sa.DECIMAL(8, 2), nullable=False)
 
     workshop = relationship("Workshop")
 
