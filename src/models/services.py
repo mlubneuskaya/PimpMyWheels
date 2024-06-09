@@ -11,8 +11,8 @@ class Services(Base):
     employee_id = sa.orm.mapped_column(sa.ForeignKey("employees.id"))
     start_date = sa.Column('start_date', sa.Date)
     end_date = sa.Column('end_date', sa.Date)
-    parts_cost = sa.Column('parts_cost', sa.Float(precision=2))
-    work_cost = sa.Column('work_cost', sa.Float(precision=2))
+    parts_cost = sa.Column('parts_cost', sa.DECIMAL(8, 2))
+    work_cost = sa.Column('work_cost', sa.DECIMAL(8, 2))
     # transaction_id = sa.orm.mapped_column(sa.ForeignKey("transactions.id"))
     description = sa.Column('address', sa.Text)
 

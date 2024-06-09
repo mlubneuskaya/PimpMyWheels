@@ -20,7 +20,7 @@ class Employee(Base):
     position = sa.Column('position', sa.String(100))
     hire_date = sa.Column('hire_date', sa.Date)
     resignation_date = sa.Column('resignation_date', sa.Date)
-    salary = sa.Column('salary', sa.Float(precision=2))
+    salary = sa.Column('salary', sa.DECIMAL(8, 2))
 
     workshop = relationship("Workshop")
 
