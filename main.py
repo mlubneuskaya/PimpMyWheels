@@ -49,14 +49,16 @@ employees = sum([create_employees(workshop, pos, employees_data, date_range[0])
                  for workshop, pos in zip(workshops, positions)], [])
 customers = []
 orders = []
-services = []
+inactive_customers = []
+complaints = []
 
-for day in date_range:
-    emulate_day(day, employees, customers, orders, services)
+
+for date in date_range:
+    emulate_day(date, employees, customers, inactive_customers, orders, complaints)
 
 
 session.add_all(customers)
 session.add_all(workshops)
-session.add_all(services)
+session.add_all(orders)
 session.add_all(employees)
 session.commit()
