@@ -1,6 +1,8 @@
 import sqlalchemy as sa
 from sqlalchemy.orm import relationship
 from unidecode import unidecode
+from sqlalchemy.dialects.mysql import INTEGER
+from sqlalchemy.dialects.mysql import DECIMAL
 
 from src.models.base import Base
 from src.generators.personal_data_generator import get_phone_number, get_address, get_birth_date, \
@@ -9,7 +11,7 @@ from src.generators.personal_data_generator import get_phone_number, get_address
 
 class Employee(Base):
     __tablename__ = "employees"
-    id = sa.Column('id', sa.Integer, primary_key=True, nullable=False, autoincrement=True)
+    id = sa.Column('id', INTEGER(unsigned=True), primary_key=True, nullable=False, autoincrement=True)
     name = sa.Column('name', sa.String(25), nullable=False)
     surname = sa.Column('surname', sa.String(25), nullable=False)
     email = sa.Column('email', sa.String(60), nullable=False)
@@ -20,7 +22,7 @@ class Employee(Base):
     position = sa.Column('position', sa.String(100), nullable=False)
     hire_date = sa.Column('hire_date', sa.Date, nullable=False)
     resignation_date = sa.Column('resignation_date', sa.Date)
-    salary = sa.Column('salary', sa.DECIMAL(8, 2), nullable=False)
+    salary = sa.Column('salary', DECIMAL(precision=8, scale=2, unsigned=True), nullable=False)
 
     workshop = relationship("Workshop")
 

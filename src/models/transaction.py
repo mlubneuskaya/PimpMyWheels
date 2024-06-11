@@ -1,4 +1,6 @@
 import sqlalchemy as sa
+from sqlalchemy.dialects.mysql import INTEGER
+from sqlalchemy.dialects.mysql import DECIMAL
 
 from src.models.base import Base
 
@@ -15,12 +17,12 @@ class TransactionTypes(sa.enum.Enum):
 
 class Transaction(Base):
     __tablename__ = "transactions"
-    id = sa.Column('id', sa.Integer, primary_key=True, nullable=False, autoincrement=True)
+    id = sa.Column('id', INTEGER(unsigned=True), primary_key=True, nullable=False, autoincrement=True)
     transaction_method = sa.Column('transaction_method', sa.Enum(TransactionMethod), nullable=False)
     other_party = sa.orm.mapped_column(sa.ForeignKey("customer.id"), nullable=False)
     date = sa.Column('data', sa.Date, nullable=False)
     transaction_type = sa.Column('transaction_type', sa.Enum(TransactionTypes), nullable=False)
-    value = sa.Column('value', sa.DECIMAL(8, 2), nullable=False)
+    value = sa.Column('value', DECIMAL(precision=8, scale=2, unsigned=True), nullable=False)
 
     sender = sa.orm.relationship('Customer')
 

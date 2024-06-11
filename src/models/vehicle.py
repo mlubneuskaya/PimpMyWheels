@@ -1,4 +1,5 @@
 import sqlalchemy as sa
+from sqlalchemy.dialects.mysql import INTEGER
 from sqlalchemy.orm import relationship
 
 from src.models.base import Base
@@ -7,9 +8,9 @@ from src.models.base import Base
 class Vehicle(Base):
     __tablename__ = "vehicles"
 
-    id = sa.Column(sa.SmallInteger, autoincrement=True, primary_key=True, nullable=False)
-    purchase_id = sa.Column(sa.Integer, sa.ForeignKey("transactions.id", nullable=False))
-    sale_id = sa.Column(sa.Integer, sa.ForeignKey("transactions.id"), nullable=True)
+    id = sa.Column(INTEGER(unsigned=True), autoincrement=True, primary_key=True, nullable=False)
+    purchase_id = sa.Column(INTEGER(unsigned=True), sa.ForeignKey("transactions.id", nullable=False))
+    sale_id = sa.Column(INTEGER(unsigned=True), sa.ForeignKey("transactions.id"), nullable=True)
 
     purchase = relationship("Transaction", foreign_keys=[purchase_id])
     sale = relationship("Transaction", foreign_keys=[sale_id])
