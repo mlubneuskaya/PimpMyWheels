@@ -1,4 +1,5 @@
 import sqlalchemy as sa
+import enum
 from sqlalchemy.dialects.mysql import INTEGER
 from sqlalchemy.dialects.mysql import DECIMAL
 
@@ -26,8 +27,7 @@ class Transaction(Base):
 
     sender = sa.orm.relationship('Customer')
 
-    def init(self, id, transaction_method, other_party, date, transaction_type, value):
-        self.id = id
+    def init(self, transaction_method, other_party, date, transaction_type, value):
         self.transaction_method = transaction_method
         self.other_party = other_party
         self.date = date

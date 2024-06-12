@@ -12,7 +12,7 @@ class Complaint(Base):
     employee_id = sa.orm.mapped_column(sa.ForeignKey("employees.id"))
     service_id = sa.orm.mapped_column(sa.ForeignKey("services.id"))
     open_date = sa.Column('open_date', sa.Date, nullable=False)
-    closure_date = sa.Column('closure_date', sa.Date, nullable=False)
+    closure_date = sa.Column('closure_date', sa.Date, nullable=True)
     description = sa.Column('description', sa.String(25), nullable=False)
     cost = sa.Column('cost', DECIMAL(precision=8, scale=2, unsigned=True), nullable=False)
 

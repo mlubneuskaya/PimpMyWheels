@@ -12,7 +12,7 @@ class Services(Base):
     id = sa.Column('id', INTEGER(unsigned=True), primary_key=True, nullable=False, autoincrement=True)
     employee_id = sa.orm.mapped_column(sa.ForeignKey("employees.id"))
     start_date = sa.Column('start_date', sa.Date, nullable=False)
-    end_date = sa.Column('end_date', sa.Date, nullable=False)
+    end_date = sa.Column('end_date', sa.Date, nullable=True)
     parts_cost = sa.Column('parts_cost', DECIMAL(precision=8, scale=2, unsigned=True), nullable=False)
     work_cost = sa.Column('work_cost', DECIMAL(precision=8, scale=2, unsigned=True), nullable=False)
     # transaction_id = sa.orm.mapped_column(sa.ForeignKey("transactions.id"))
