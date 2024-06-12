@@ -6,12 +6,12 @@ from sqlalchemy.dialects.mysql import DECIMAL
 from src.models.base import Base
 
 
-class TransactionMethod(sa.enum.Enum):
+class TransactionMethod(enum.Enum):
     cash = 1
     card = 2
 
 
-class TransactionTypes(sa.enum.Enum):
+class TransactionTypes(enum.Enum):
     income = 1
     cost = 2
 
