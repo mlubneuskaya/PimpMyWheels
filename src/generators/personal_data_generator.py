@@ -73,18 +73,19 @@ def get_description():
 
     selected_description = random.choices(descriptions, weights=probabilities, k=1)[0]
     description = selected_description['description']
-    parts_cost = selected_description['parts_cost']
     work_cost = selected_description['work_cost']
-    return description, parts_cost, work_cost
+    return description, work_cost
 
 
-def get_description_date(day):
+def get_description_start_date(day):
     start_date = day + timedelta(days=random.randint(1, 60))
-
+    return start_date
+    
+def get_description_end_date(day):
     if random.choice([True, False]):
-        return start_date, start_date + timedelta(days=random.randint(1, 30))
+        return day + timedelta(days=random.randint(1, 30))
     else:
-        return start_date, None
+        return None
 
 
 def get_salary(min_salary, avg_salary, max_salary):
