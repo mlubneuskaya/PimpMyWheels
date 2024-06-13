@@ -11,9 +11,8 @@ from unidecode import unidecode
 names = pd.read_csv("data\\names.csv")
 female_surnames = pd.read_csv("data\\female_surnames.csv")
 male_surnames = pd.read_csv("data\\male_surnames.csv")
-with open("data\\parameters\\description.json", "r") as file:
-    descriptions = json.load(file)
-
+with open("data\\parameters\\services_parts.json", "r", encoding="utf-8") as file:
+    service_part = json.load(file)
 
 class UniquePersonalData:
     phone_numbers = set()
@@ -69,13 +68,16 @@ def get_stations_number():
 
 
 def get_description():
-    probabilities = [desc['probability'] for desc in descriptions]
+    probabilities = [desc['probability'] for desc in service_part]
+    selected_description = random.choices(service_part, weights=probabilities, k=1)[0]
+    description = selected_description['name']
+    return description
 
-    selected_description = random.choices(descriptions, weights=probabilities, k=1)[0]
-    description = selected_description['description']
-    work_cost = selected_description['work_cost']
-    return description, work_cost
-
+def get_work_cost(description):
+    for desc in service_part:
+        if desc['name'] == description:
+            work_cost = desc['work_cost']
+            return work_cost
 
 def get_description_start_date(day):
     start_date = day + timedelta(days=random.randint(1, 60))
