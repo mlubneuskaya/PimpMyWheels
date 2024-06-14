@@ -1,9 +1,4 @@
-import os 
-
 import pandas as pd
-# Poprawione listy nazw i typów, upewniając się, że obie mają po 100 elementów.
-
-# os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 name = [
     "Silnik V8", "Silnik R4", "Alternator", "Akumulator", "Amortyzator przedni", "Amortyzator tylny", 
@@ -41,11 +36,31 @@ type = [
     "Narzędzie", "Narzędzie", "Narzędzie", "Narzędzie", 
     "Narzędzie", "Narzędzie", "Narzędzie", "Narzędzie", "Narzędzie"
 ]
-print(len(name), len(type))
-equipment_data_corrected = {
+prices = [
+    25000, 10000, 700, 400, 500, 450, 
+    600, 3500, 8000, 300, 200, 
+    800, 700, 150, 150, 100, 250, 
+    200, 100, 150, 600, 4000, 50, 
+    3000, 100, 350, 40, 500, 800, 750, 
+    250, 60, 30, 20, 25, 30, 1200, 
+    100, 200, 50, 150, 80, 400, 
+    3500, 250, 600, 500, 450, 
+    300, 350, 800, 1500, 600, 
+    200, 15, 30, 150, 
+    500, 300, 150, 80, 120,
+    1500, 1000, 600, 300, 
+    2500, 200, 800, 300, 200, 
+    300, 100, 50, 500, 250, 
+    150, 800, 250, 150, 
+    500, 200, 350, 100, 80
+]
+
+print(len(name), len(type), len(prices))
+equipment = {
     "nazwa": name,
-    "typ": type
+    "typ": type,
+    "cena": prices
 }
-df_corrected = pd.DataFrame(equipment_data_corrected)
-csv_file_path_corrected = "data/equipment.csv"
-df_corrected.to_csv(csv_file_path_corrected, index=False)
+df = pd.DataFrame(equipment)
+file_path = "data/equipment.csv"
+df.to_csv(file_path, index=False)

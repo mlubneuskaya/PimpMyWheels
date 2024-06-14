@@ -3,9 +3,9 @@
     "version": "2.2.13",
     "width": 2000,
     "height": 2000,
-    "scrollTop": -36,
-    "scrollLeft": -164,
-    "zoomLevel": 0.9,
+    "scrollTop": -525.1245,
+    "scrollLeft": -170,
+    "zoomLevel": 0.8,
     "show": {
       "tableComment": true,
       "columnComment": true,
@@ -278,29 +278,6 @@
             }
           },
           {
-            "id": "044e6283-6386-4acf-9a2d-d4ae55578ce7",
-            "name": "resignation_date",
-            "comment": "",
-            "dataType": "DATE",
-            "default": "",
-            "option": {
-              "autoIncrement": false,
-              "primaryKey": false,
-              "unique": false,
-              "notNull": false
-            },
-            "ui": {
-              "active": false,
-              "pk": false,
-              "fk": false,
-              "pfk": false,
-              "widthName": 98.12890625,
-              "widthComment": 60,
-              "widthDataType": 60,
-              "widthDefault": 60
-            }
-          },
-          {
             "id": "8ae9aef0-0bb1-4349-987c-84aa3aee5505",
             "name": "salary",
             "comment": "",
@@ -322,13 +299,36 @@
               "widthDataType": 60,
               "widthDefault": 60
             }
+          },
+          {
+            "id": "044e6283-6386-4acf-9a2d-d4ae55578ce7",
+            "name": "resignation_date",
+            "comment": "",
+            "dataType": "DATE",
+            "default": "",
+            "option": {
+              "autoIncrement": false,
+              "primaryKey": false,
+              "unique": false,
+              "notNull": false
+            },
+            "ui": {
+              "active": false,
+              "pk": false,
+              "fk": false,
+              "pfk": false,
+              "widthName": 98.12890625,
+              "widthComment": 60,
+              "widthDataType": 60,
+              "widthDefault": 60
+            }
           }
         ],
         "ui": {
-          "active": false,
+          "active": true,
           "left": 150.4449,
           "top": 327.5567,
-          "zIndex": 154,
+          "zIndex": 22,
           "widthName": 66.30810546875,
           "widthComment": 60
         },
@@ -574,7 +574,7 @@
           "active": false,
           "left": 125.0051,
           "top": 997.2225,
-          "zIndex": 266,
+          "zIndex": 7,
           "widthName": 64.84814453125,
           "widthComment": 60
         },
@@ -751,7 +751,7 @@
           "active": false,
           "left": 710.8878,
           "top": 304.556,
-          "zIndex": 268,
+          "zIndex": 9,
           "widthName": 60,
           "widthComment": 60
         },
@@ -882,7 +882,7 @@
           "active": false,
           "left": 130.7768,
           "top": 770.8894,
-          "zIndex": 265,
+          "zIndex": 6,
           "widthName": 60,
           "widthComment": 60
         },
@@ -1214,7 +1214,7 @@
           "active": false,
           "left": 1148.6652,
           "top": 791.8889,
-          "zIndex": 267,
+          "zIndex": 8,
           "widthName": 75.9375,
           "widthComment": 60
         },
@@ -1345,7 +1345,7 @@
           "active": false,
           "left": 56.9999,
           "top": 8.4444,
-          "zIndex": 155,
+          "zIndex": 3,
           "widthName": 66.7841796875,
           "widthComment": 60
         },
@@ -1453,7 +1453,7 @@
           "active": false,
           "left": 1281.3865,
           "top": 21.7774,
-          "zIndex": 227,
+          "zIndex": 17,
           "widthName": 64.14990234375,
           "widthComment": 60
         },
@@ -1559,9 +1559,9 @@
         ],
         "ui": {
           "active": false,
-          "left": 702.2791,
-          "top": 22.2239,
-          "zIndex": 226,
+          "left": 763.3903,
+          "top": 46.6681,
+          "zIndex": 21,
           "widthName": 60,
           "widthComment": 60
         },
@@ -1776,8 +1776,8 @@
           "columnIds": [
             "a8c2c473-548d-433a-99a8-bb3882d02387"
           ],
-          "x": 1069.33622890625,
-          "y": 97.7239,
+          "x": 1130.44742890625,
+          "y": 122.16810000000001,
           "direction": "right"
         },
         "constraintName": "fk_equipment_to_current equipmient",
@@ -1802,8 +1802,8 @@
           "columnIds": [
             "4c60d6b9-86b6-4bc9-8f8a-1ce62f98b6bf"
           ],
-          "x": 885.807664453125,
-          "y": 173.22390000000001,
+          "x": 946.918864453125,
+          "y": 197.6681,
           "direction": "bottom"
         },
         "constraintName": "fk_services_to_current equipmient",
@@ -1854,8 +1854,8 @@
           "columnIds": [
             "f19f02bc-7ff3-41f9-8caa-13b590a7be3e"
           ],
-          "x": 702.2791,
-          "y": 97.7239,
+          "x": 763.3903,
+          "y": 122.16810000000001,
           "direction": "left"
         },
         "constraintName": "fk_workshops_to_inventory",
