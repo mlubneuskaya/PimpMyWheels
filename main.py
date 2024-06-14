@@ -47,6 +47,7 @@ workshops = [Workshop(open_date), Workshop(open_date)]
 positions = [['manager'] + ['mechanic'] * workshop.stations_number for workshop in workshops]
 employees = sum([create_employees(workshop, pos, employees_data, date_range[0])
                  for workshop, pos in zip(workshops, positions)], [])
+
 customers = []
 orders = []
 inactive_customers = []
