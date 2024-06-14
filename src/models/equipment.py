@@ -10,13 +10,11 @@ class Equipment(Base):
     id = sa.Column(INTEGER(unsigned=True), autoincrement=True, primary_key=True, comment="Id wyposażenia")
     name = sa.Column(sa.String(255), nullable=False, comment="Nazwa")
     type = sa.Column(sa.String(50), nullable=False, comment="Typ")
-    number_in_stock = sa.Column(INTEGER(unsigned=True), nullable=False, comment="Ilość na stanie")
-    workshop_id = sa.Column(INTEGER(unsigned=True), sa.ForeignKey("workshops.id"), nullable=False, comment="Id placówki")
+    cost = sa.Column(sa.DECIMAL(8, 2), nullable=False, comment="Koszt")
+    
+    inventories = relationship("Inventory", back_populates="equipment")
 
-    workshop = relationship("Workshop")
-
-    def __init__(self, name, type, number_in_stock, workshop_id):
+    def __init__(self, name, type, cost):
         self.name = name
         self.type = type
-        self.number_in_stock = number_in_stock
-        self.workshop_id = workshop_id
+        self.cost = cost
