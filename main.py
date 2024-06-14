@@ -1,4 +1,3 @@
-import datetime
 import json
 import os
 
@@ -12,7 +11,6 @@ from dotenv import load_dotenv
 
 from src.emulation.emulation import emulate_day
 from src.models.workshop import Workshop
-from src.models.transaction import Transaction, TransactionMethod, TransactionTypes
 from src.models.base import Base
 
 with open(r"data\parameters\dates.json") as file:

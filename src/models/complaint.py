@@ -19,10 +19,10 @@ class Complaint(Base):
     service = relationship("Services")
     employee = relationship("Employee")
 
-    def init(self, employee, open_date, closure_date, description, cost, service):
+    def __init__(self, employee, service, open_date, closure_date, description, cost):
         self.employee = employee
+        self.service = service
         self.open_date = open_date
         self.closure_date = closure_date
         self.description = description
         self.cost = cost
-        self.service = service
