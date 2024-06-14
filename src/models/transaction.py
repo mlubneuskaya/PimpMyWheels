@@ -1,16 +1,16 @@
 import sqlalchemy as sa
 from sqlalchemy.dialects.mysql import INTEGER
 from sqlalchemy.dialects.mysql import DECIMAL
-
+import enum
 from src.models.base import Base
 
 
-class TransactionMethod(sa.enum.Enum):
+class TransactionMethod(enum.Enum):
     cash = 1
     card = 2
 
 
-class TransactionTypes(sa.enum.Enum):
+class TransactionTypes(enum.Enum):
     income = 1
     cost = 2
 
@@ -26,8 +26,7 @@ class Transaction(Base):
 
     sender = sa.orm.relationship('Customer')
 
-    def init(self, id, transaction_method, other_party, date, transaction_type, value):
-        self.id = id
+    def init(self, transaction_method, other_party, date, transaction_type, value):
         self.transaction_method = transaction_method
         self.other_party = other_party
         self.date = date
