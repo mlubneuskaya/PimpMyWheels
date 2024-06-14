@@ -1,3 +1,4 @@
+import datetime
 import json
 import os
 
@@ -11,6 +12,7 @@ from dotenv import load_dotenv
 
 from src.emulation.emulation import emulate_day
 from src.models.workshop import Workshop
+from src.models.transaction import Transaction, TransactionMethod, TransactionTypes
 from src.models.base import Base
 
 with open(r"data\parameters\dates.json") as file:
@@ -47,6 +49,7 @@ workshops = [Workshop(open_date), Workshop(open_date)]
 positions = [['manager'] + ['mechanic'] * workshop.stations_number for workshop in workshops]
 employees = sum([create_employees(workshop, pos, employees_data, date_range[0])
                  for workshop, pos in zip(workshops, positions)], [])
+
 customers = []
 orders = []
 services = []
