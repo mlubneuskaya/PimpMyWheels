@@ -16,10 +16,10 @@ class Vehicle(Base):
 
     purchase = relationship("Transaction", foreign_keys=[purchase_id])
     sale = relationship("Transaction", foreign_keys=[sale_id])
-    workshop = relationship("Workshop")
+    workshop = relationship("Workshop", foreign_keys=[workshop_id])
 
-    def __init__(self, purchase_id, workshop_id, brand=None, sale_id=None):
-        self.purchase_id = purchase_id
-        self.workshop_id = workshop_id
+    def __init__(self, purchase, workshop, brand=None, sale=None):
+        self.purchase = purchase
+        self.workshop = workshop
         self.brand = brand
-        self.sale_id = sale_id
+        self.sale = sale

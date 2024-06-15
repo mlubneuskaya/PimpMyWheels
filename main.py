@@ -86,9 +86,15 @@ services = sorted(
     [service for wdm in workshop_decision_makers
      for service in wdm.repairs],
     key=lambda x: x.start_date)
+vehicles = sorted(
+    [vehicle for wdm in workshop_decision_makers
+     for vehicle in wdm.vehicles],
+    key=lambda x: x.purchase.date)
 
 session.add_all(customer_decision_maker.all_customers)
 session.add_all(workshops)
-session.add_all(services)
 session.add_all(employees)
+session.add_all(transactions)
+session.add_all(services)
+session.add_all(vehicles)
 session.commit()
