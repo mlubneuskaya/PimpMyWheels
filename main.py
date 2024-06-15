@@ -68,7 +68,7 @@ workshop_decision_maker2 = WorkshopDecisionMaker(date=date_range[0],
 
 workshop_decision_makers = [workshop_decision_maker1, workshop_decision_maker2]
 customer_decision_maker = CustomerDecisionMaker(account_deactivation_probability=0.01,
-                                                regular_customers_per_day=0.01,
+                                                regular_customers_per_day=0.1,
                                                 new_customers_per_day=4)
 
 complaints = []
