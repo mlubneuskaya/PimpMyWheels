@@ -2,27 +2,7 @@ import random
 
 from scipy import stats
 
-from src.models.complaint import Complaint
 from src.models.customer import Customer
-from src.models.service import Service
-
-
-def create_order(customer, employee, day):
-    customer.last_active = day
-    transaction = 1
-    return Service(customer=customer, employee=employee, transaction=transaction)
-
-
-def create_complaint(customer, open_date, employee, service, closure_date, description, cost):
-    customer.last_active = open_date
-    return Complaint(
-        employee,
-        service,
-        open_date,
-        closure_date,
-        description,
-        cost
-    )
 
 
 class CustomerDecisionMaker:

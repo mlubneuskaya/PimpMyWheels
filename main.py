@@ -4,14 +4,14 @@ import os
 from src.emulation.customer_decision_maker import CustomerDecisionMaker
 from src.emulation.workshop_decision_maker import WorkshopDecisionMaker
 
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
-
 import pandas as pd
 import sqlalchemy as sa
 from dotenv import load_dotenv
 
 from src.emulation.emulation import emulate_day
 from src.models.base import Base
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 with open(r"data\parameters\dates.json") as file:
     dates = json.load(file)
