@@ -1,6 +1,7 @@
 import json
 import os
 
+from src.emulation.customer_decision_maker import CustomerDecisionMaker
 from src.generators.objects_generator import create_employees
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -48,17 +49,20 @@ positions = [['manager'] + ['mechanic'] * workshop.stations_number for workshop 
 employees = sum([create_employees(workshop, pos, employees_data, date_range[0])
                  for workshop, pos in zip(workshops, positions)], [])
 
-customers = []
 orders = []
-inactive_customers = []
 complaints = []
 
+customer_decision_maker = CustomerDecisionMaker(account_deactivation_probability=0.01,
+                                                purchase_probability=0.2,
+                                                selling_probability=0.2,
+                                                repair_probability=0.6,
+                                                regular_customers_per_day=0.01,
+                                                new_customers_per_day=4)
 
 for date in date_range:
-    emulate_day(date, employees, customers, inactive_customers, orders, complaints)
+    emulate_day(date, employees, customer_decision_maker, orders, complaints)
 
-
-session.add_all(customers)
+session.add_all(customer_decision_maker.all_customers)
 session.add_all(workshops)
 session.add_all(orders)
 session.add_all(employees)
