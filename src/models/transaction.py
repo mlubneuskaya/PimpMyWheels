@@ -27,7 +27,7 @@ class Transaction(Base):
 
     sender = sa.orm.relationship('Customer')
 
-    def init(self, transaction_method, sender, date, transaction_type, value):
+    def __init__(self, transaction_method, sender, date, transaction_type, value):
         self.transaction_method = transaction_method
         self.sender = sender
         self.date = date

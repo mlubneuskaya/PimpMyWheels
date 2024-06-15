@@ -4,13 +4,13 @@ from scipy import stats
 
 from src.models.complaint import Complaint
 from src.models.customer import Customer
-from src.models.services import Services
+from src.models.service import Service
 
 
 def create_order(customer, employee, day):
     customer.last_active = day
     transaction = 1
-    return Services(customer=customer, employee=employee, transaction=transaction)
+    return Service(customer=customer, employee=employee, transaction=transaction)
 
 
 def create_complaint(customer, open_date, employee, service, closure_date, description, cost):
@@ -27,14 +27,9 @@ def create_complaint(customer, open_date, employee, service, closure_date, descr
 
 class CustomerDecisionMaker:
     def __init__(self, account_deactivation_probability,
-                 purchase_probability,
-                 selling_probability,
-                 repair_probability,
                  regular_customers_per_day,
                  new_customers_per_day):
         self.account_deactivation_probability = account_deactivation_probability
-        self.order_types = ["repair", "buy", "sell"]
-        self.order_probabilities = [repair_probability, purchase_probability, selling_probability]
         self.active_customers = []
         self.all_customers = []
         self.regular_customers_per_day = regular_customers_per_day

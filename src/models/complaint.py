@@ -16,7 +16,7 @@ class Complaint(Base):
     description = sa.Column('description', sa.String(25), nullable=False)
     cost = sa.Column('cost', DECIMAL(precision=8, scale=2, unsigned=True), nullable=False)
 
-    service = relationship("Services")
+    service = relationship("Service")
     employee = relationship("Employee")
 
     def __init__(self, employee, service, open_date, closure_date, description, cost):

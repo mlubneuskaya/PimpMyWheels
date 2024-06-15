@@ -1,4 +1,3 @@
-import json
 import random
 from datetime import timedelta
 
@@ -11,8 +10,7 @@ from unidecode import unidecode
 names = pd.read_csv("data\\names.csv")
 female_surnames = pd.read_csv("data\\female_surnames.csv")
 male_surnames = pd.read_csv("data\\male_surnames.csv")
-with open("data\\parameters\\services_parts.json", "r", encoding="utf-8") as file:
-    service_part = json.load(file)
+
 
 class UniquePersonalData:
     phone_numbers = set()
@@ -61,33 +59,6 @@ def get_birth_date(day):
     a, b = (min_age - avg_age) / scale, (max_age - avg_age) / scale
     age = scipy.stats.truncnorm.rvs(a=a, b=b, loc=avg_age, scale=scale)
     return day - timedelta(days=age * 365)
-
-
-def get_stations_number():
-    return int(random.randint(3, 5))
-
-
-def get_description():
-    probabilities = [desc['probability'] for desc in service_part]
-    selected_description = random.choices(service_part, weights=probabilities, k=1)[0]
-    description = selected_description['name']
-    return description
-
-def get_work_cost(description):
-    for desc in service_part:
-        if desc['name'] == description:
-            work_cost = desc['work_cost']
-            return work_cost
-
-def get_description_start_date(day):
-    start_date = day + timedelta(days=random.randint(1, 60))
-    return start_date
-    
-def get_description_end_date(day):
-    if random.choice([True, False]):
-        return day + timedelta(days=random.randint(1, 30))
-    else:
-        return None
 
 
 def get_salary(min_salary, avg_salary, max_salary):
