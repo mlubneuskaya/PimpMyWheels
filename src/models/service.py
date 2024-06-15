@@ -13,15 +13,18 @@ class Service(Base):
     start_date = sa.Column('start_date', sa.Date, nullable=False)
     end_date = sa.Column('end_date', sa.Date, nullable=True)
     work_cost = sa.Column('work_cost', DECIMAL(precision=8, scale=2, unsigned=True), nullable=False)
-    transaction_id = sa.orm.mapped_column(sa.ForeignKey("transactions.id"))
+    transaction_id = sa.orm.mapped_column(sa.ForeignKey("transactions.id"), nullable=True)
     description = sa.Column('description', sa.String(100), nullable=False)
+    vehicle_id = sa.orm.mapped_column(sa.ForeignKey("vehicles.id"))
 
-    employee = relationship("Employee")
+    employee = relationship("Employee", foreign_keys=[employee_id])
+    transaction = relationship("Transaction", foreign_keys=[transaction_id])
+    vehicle = relationship("Vehicle", foreign_keys=[vehicle_id])
 
-    transaction = relationship("Transaction")
-
-    def __init__(self, date, employee, service_type, work_cost):
+    def __init__(self, date, employee, vehicle, service_type, work_cost, transaction=None):
+        self.transaction = transaction
         self.employee = employee
+        self.vehicle = vehicle
         self.description = service_type
         self.start_date = date
         self.end_date = None

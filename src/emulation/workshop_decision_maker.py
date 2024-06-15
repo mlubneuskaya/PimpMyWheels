@@ -52,6 +52,10 @@ class WorkshopDecisionMaker:
             order_probabilities = [self.repair_probability, self.purchase_probability, self.selling_probability]
         order_type = random.choices(WorkshopDecisionMaker.order_types, weights=order_probabilities, k=1)[0]
         if order_type == "repair":
+            vehicle = Vehicle(purchase=None,
+                              workshop=self.workshop,
+                              brand='Ferrari',
+                              sale=None)
             service_details = self.get_service_details()
             transaction = Transaction(transaction_method=random.choices(list(TransactionMethod), weights=[0.2, 0.8])[0],
                                       sender=customer,
@@ -60,11 +64,13 @@ class WorkshopDecisionMaker:
                                       value=(service_details['work_cost']+service_details['part_cost'])*(1+self.margin))
             service = Service(date=date,
                               employee=random.choice(self.mechanics),
+                              vehicle=vehicle,
                               service_type=service_details['name'],
                               work_cost=service_details['work_cost'])
             service.transaction = transaction
             self.active_repairs.append(service)
             self.repairs.append(service)
+            return transaction
         elif order_type == "buy":  # TODO ceny i marki
             transaction = Transaction(transaction_method=TransactionMethod['card'],
                                       sender=customer,
@@ -72,14 +78,17 @@ class WorkshopDecisionMaker:
                                       transaction_type=TransactionTypes['income'],
                                       value=10000)
             service_details = self.get_service_details()
-            service = Service(date=date,
-                              employee=random.choice(self.mechanics),
-                              service_type=service_details['name'],
-                              work_cost=service_details['work_cost'])
-            self.active_repairs.append(service)
             vehicle = random.choice(self.vehicles_in_stock)
             vehicle.sale = transaction
             self.vehicles_in_stock.remove(vehicle)
+            service = Service(date=date,
+                              employee=random.choice(self.mechanics),
+                              vehicle=vehicle,
+                              service_type=service_details['name'],
+                              work_cost=service_details['work_cost'])
+            self.active_repairs.append(service)
+            self.repairs.append(service)
+            return transaction
         else:  # TODO ceny i marki
             transaction = Transaction(transaction_method=TransactionMethod['card'],
                                       sender=customer,
@@ -92,7 +101,7 @@ class WorkshopDecisionMaker:
                               sale=None)
             self.vehicles.append(vehicle)
             self.vehicles_in_stock.append(vehicle)
-        return transaction
+            return transaction
 
     def complete_repairs(self, date):
         for repair in self.active_repairs:
