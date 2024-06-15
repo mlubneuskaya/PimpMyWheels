@@ -7,10 +7,30 @@ from src.models.base import Base
 
 class Inventory(Base):
     __tablename__ = "inventory"
-    id = sa.Column(INTEGER(unsigned=True), autoincrement=True, primary_key=True, comment="Id inwentarza")
-    equipment_id = sa.Column(INTEGER(unsigned=True), sa.ForeignKey('equipment.id'), nullable=False, comment="Id wyposażenia")
-    service_id = sa.Column(INTEGER(unsigned=True), sa.ForeignKey('services.id'), nullable=False, comment="Id usługi")
-    workshop_id = sa.Column(INTEGER(unsigned=True), sa.ForeignKey('workshops.id'), nullable=False, comment="Id warsztatu")
+    id = sa.Column(
+        INTEGER(unsigned=True),
+        autoincrement=True,
+        primary_key=True,
+        comment="Id inwentarza",
+    )
+    equipment_id = sa.Column(
+        INTEGER(unsigned=True),
+        sa.ForeignKey("equipment.id"),
+        nullable=False,
+        comment="Id wyposażenia",
+    )
+    service_id = sa.Column(
+        INTEGER(unsigned=True),
+        sa.ForeignKey("services.id"),
+        nullable=False,
+        comment="Id usługi",
+    )
+    workshop_id = sa.Column(
+        INTEGER(unsigned=True),
+        sa.ForeignKey("workshops.id"),
+        nullable=False,
+        comment="Id warsztatu",
+    )
 
     equipment = relationship("Equipment", back_populates="inventories")
     service = relationship("Service")

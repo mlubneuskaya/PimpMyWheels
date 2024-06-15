@@ -18,14 +18,26 @@ class TransactionTypes(enum.Enum):
 # TODO add workshop_id
 class Transaction(Base):
     __tablename__ = "transactions"
-    id = sa.Column('id', INTEGER(unsigned=True), primary_key=True, nullable=False, autoincrement=True)
-    transaction_method = sa.Column('transaction_method', sa.Enum(TransactionMethod), nullable=False)
+    id = sa.Column(
+        "id",
+        INTEGER(unsigned=True),
+        primary_key=True,
+        nullable=False,
+        autoincrement=True,
+    )
+    transaction_method = sa.Column(
+        "transaction_method", sa.Enum(TransactionMethod), nullable=False
+    )
     other_party = sa.orm.mapped_column(sa.ForeignKey("customers.id"), nullable=False)
-    date = sa.Column('data', sa.Date, nullable=False)
-    transaction_type = sa.Column('transaction_type', sa.Enum(TransactionTypes), nullable=False)
-    value = sa.Column('value', DECIMAL(precision=8, scale=2, unsigned=True), nullable=False)
+    date = sa.Column("data", sa.Date, nullable=False)
+    transaction_type = sa.Column(
+        "transaction_type", sa.Enum(TransactionTypes), nullable=False
+    )
+    value = sa.Column(
+        "value", DECIMAL(precision=8, scale=2, unsigned=True), nullable=False
+    )
 
-    sender = sa.orm.relationship('Customer')
+    sender = sa.orm.relationship("Customer")
 
     def __init__(self, transaction_method, sender, date, transaction_type, value):
         self.transaction_method = transaction_method

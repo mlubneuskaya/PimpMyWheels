@@ -9,11 +9,19 @@ from src.generators.personal_data_generator import get_address, get_phone_number
 
 class Workshop(Base):
     __tablename__ = "workshops"
-    id = sa.Column('id', INTEGER(unsigned=True), primary_key=True, autoincrement=True, nullable=False)
-    address = sa.Column('address', sa.String(50), nullable=False)
-    phone_number = sa.Column('phone_number', sa.String(12), nullable=False)
-    stations_number = sa.Column('station_number', INTEGER(unsigned=True), nullable=False)
-    opening_date = sa.Column('opening_date', sa.Date, nullable=False)
+    id = sa.Column(
+        "id",
+        INTEGER(unsigned=True),
+        primary_key=True,
+        autoincrement=True,
+        nullable=False,
+    )
+    address = sa.Column("address", sa.String(50), nullable=False)
+    phone_number = sa.Column("phone_number", sa.String(12), nullable=False)
+    stations_number = sa.Column(
+        "station_number", INTEGER(unsigned=True), nullable=False
+    )
+    opening_date = sa.Column("opening_date", sa.Date, nullable=False)
 
     def __init__(self, day):
         self.address = get_address()

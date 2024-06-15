@@ -8,10 +8,27 @@ from src.models.base import Base
 class Vehicle(Base):
     __tablename__ = "vehicles"
 
-    id = sa.Column(INTEGER(unsigned=True), autoincrement=True, primary_key=True, nullable=False)
-    purchase_id = sa.Column(INTEGER(unsigned=True), sa.ForeignKey("transactions.id"), nullable=True, comment="Id transakcji zakupu")
-    sale_id = sa.Column(INTEGER(unsigned=True), sa.ForeignKey("transactions.id"), nullable=True, comment="Id transakcji sprzedaży")
-    workshop_id = sa.Column(INTEGER(unsigned=True), sa.ForeignKey("workshops.id"), nullable=False, comment="Id warsztatu")
+    id = sa.Column(
+        INTEGER(unsigned=True), autoincrement=True, primary_key=True, nullable=False
+    )
+    purchase_id = sa.Column(
+        INTEGER(unsigned=True),
+        sa.ForeignKey("transactions.id"),
+        nullable=True,
+        comment="Id transakcji zakupu",
+    )
+    sale_id = sa.Column(
+        INTEGER(unsigned=True),
+        sa.ForeignKey("transactions.id"),
+        nullable=True,
+        comment="Id transakcji sprzedaży",
+    )
+    workshop_id = sa.Column(
+        INTEGER(unsigned=True),
+        sa.ForeignKey("workshops.id"),
+        nullable=False,
+        comment="Id warsztatu",
+    )
     brand = sa.Column(sa.String(15), nullable=True, comment="Marka pojazdu")
 
     purchase = relationship("Transaction", foreign_keys=[purchase_id])

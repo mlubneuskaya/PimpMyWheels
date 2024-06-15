@@ -19,17 +19,20 @@ class UniquePersonalData:
 
 
 def get_name_surname():
-    _, name, sex, _ = names.sample(n=1, weights='frequency').iloc[0]
+    _, name, sex, _ = names.sample(n=1, weights="frequency").iloc[0]
     if sex == "F":
-        surname = female_surnames.sample(n=1, weights='frequency').surname.iloc[0]
+        surname = female_surnames.sample(n=1, weights="frequency").surname.iloc[0]
     else:
-        surname = male_surnames.sample(n=1, weights='frequency').surname.iloc[0]
+        surname = male_surnames.sample(n=1, weights="frequency").surname.iloc[0]
     return name, surname
 
 
 def get_unique_name_surname():
     name, surname = get_name_surname()
-    while f"{unidecode(name)}{unidecode(surname)}" in UniquePersonalData.name_surname_pairs:
+    while (
+        f"{unidecode(name)}{unidecode(surname)}"
+        in UniquePersonalData.name_surname_pairs
+    ):
         name, surname = get_name_surname()
     UniquePersonalData.name_surname_pairs.add(f"{unidecode(name)}{unidecode(surname)}")
     return name, surname

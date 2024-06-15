@@ -10,4 +10,3 @@ def emulate_day(date, workshop_decision_makers, customer_decision_maker, transac
     for customer in customers_today:
         wdm = random.choice(workshop_decision_makers)
         transactions.append(wdm.add_service_and_create_transaction(date, customer))
-
