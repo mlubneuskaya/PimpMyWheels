@@ -18,7 +18,8 @@ class WorkshopDecisionMaker:
                  selling_probability,
                  repair_probability,
                  service_parameters,
-                 employee_resignation_probability):
+                 employee_resignation_probability,
+                 margin):
         self.workshop = Workshop(date)
         self.manager = Employee(self.workshop,
                                 date,
@@ -30,6 +31,7 @@ class WorkshopDecisionMaker:
                                    **mechanics_salary) for _ in range(self.workshop.stations_number)]
         self.service_completion_probability = service_completion_probability
         self.order_probabilities = [repair_probability, purchase_probability, selling_probability]
+        self.margin = margin
         self.repairs = []
         self.active_repairs = []
         self.vehicles = []
@@ -41,12 +43,12 @@ class WorkshopDecisionMaker:
     def add_service_and_create_transaction(self, date, customer):
         order_type = random.choices(WorkshopDecisionMaker.order_types, weights=self.order_probabilities, k=1)[0]
         if order_type == "repair":
+            service_details = self.get_service_details()
             transaction = Transaction(transaction_method=random.choices(list(TransactionMethod), weights=[0.2, 0.8])[0],
                                       sender=customer,
                                       date=date,
                                       transaction_type=TransactionTypes['income'],
-                                      value=500)
-            service_details = self.get_service_details()
+                                      value=(service_details['work_cost']+service_details['part_cost'])*(1+self.margin))
             service = Service(date=date,
                               employee=random.choice(self.mechanics),
                               service_type=service_details['name'],

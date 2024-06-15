@@ -51,7 +51,8 @@ workshop_decision_maker1 = WorkshopDecisionMaker(date=date_range[0],
                                                  selling_probability=0.2,
                                                  repair_probability=0.6,
                                                  service_parameters=service_parameters,
-                                                 employee_resignation_probability=1/365)
+                                                 employee_resignation_probability=1/365,
+                                                 margin=0.2)
 
 workshop_decision_maker2 = WorkshopDecisionMaker(date=date_range[0],
                                                  manager_salary=employees_data['manager'],
@@ -61,19 +62,20 @@ workshop_decision_maker2 = WorkshopDecisionMaker(date=date_range[0],
                                                  selling_probability=0.2,
                                                  repair_probability=0.6,
                                                  service_parameters=service_parameters,
-                                                 employee_resignation_probability=2/365)
+                                                 employee_resignation_probability=2/365,
+                                                 margin=0.2)
 
 
 workshop_decision_makers = [workshop_decision_maker1, workshop_decision_maker2]
-
-complaints = []
-
 customer_decision_maker = CustomerDecisionMaker(account_deactivation_probability=0.01,
                                                 regular_customers_per_day=0.01,
                                                 new_customers_per_day=4)
 
+complaints = []
+transactions = []
+
 for date in date_range:
-    emulate_day(date, workshop_decision_makers, customer_decision_maker)
+    emulate_day(date, workshop_decision_makers, customer_decision_maker, transactions)
 
 workshops = [wdm.workshop for wdm in workshop_decision_makers]
 employees = sorted(

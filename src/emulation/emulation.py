@@ -7,7 +7,7 @@ from src.emulation.employee_decision_maker import resigns
 from src.models.employee import Employee
 
 
-def emulate_day(date, workshop_decision_makers, customer_decision_maker):
+def emulate_day(date, workshop_decision_makers, customer_decision_maker, transactions):
     customer_decision_maker.accounts_deactivation(date)
     for wdm in workshop_decision_makers:
         wdm.employee_turnover(date)
@@ -15,7 +15,7 @@ def emulate_day(date, workshop_decision_makers, customer_decision_maker):
     customers_today = customer_decision_maker.customers_arrival(date)
     for customer in customers_today:
         wdm = random.choice(workshop_decision_makers)
-        wdm.add_service_and_create_transaction(date, customer)
+        transactions.append(wdm.add_service_and_create_transaction(date, customer))
 
 
 def employee_turnover(day, employees_list):
