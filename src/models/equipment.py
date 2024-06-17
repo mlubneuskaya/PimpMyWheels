@@ -17,7 +17,7 @@ class Equipment(Base):
     type = sa.Column(sa.String(50), nullable=False, comment="Typ")
     cost = sa.Column(sa.DECIMAL(8, 2), nullable=False, comment="Koszt")
 
-    inventories = relationship("Inventory", back_populates="equipment")
+    # inventories = relationship("Inventory", back_populates="equipment")  # TODO
 
     def __init__(self, name, type, cost):
         self.name = name

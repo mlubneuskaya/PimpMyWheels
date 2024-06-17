@@ -2,6 +2,7 @@ import json
 import os
 
 from src.emulation.customer_decision_maker import CustomerDecisionMaker
+from src.emulation.equipment_generator import generate_equipment_table
 from src.emulation.workshop_decision_maker import WorkshopDecisionMaker
 from src.emulation.workshop_emulator import WorkshopEmulator
 
@@ -43,6 +44,7 @@ session = Session()
 date_range = pd.date_range(dates["start"], periods=10).to_pydatetime()  # .tolist()
 date_range = [d for d in date_range if d.weekday() < 5]
 
+equipment = generate_equipment_table(service_parameters=service_parameters)
 
 workshop_decision_maker1 = WorkshopDecisionMaker(
     manager_salary=employees_data["manager"],
@@ -107,6 +109,7 @@ vehicles = sorted(
     key=lambda x: x.purchase.date,
 )
 
+session.add_all(equipment)
 session.add_all(customer_decision_maker.all_customers)
 session.add_all(workshops)
 session.add_all(employees)
