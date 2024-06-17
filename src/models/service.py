@@ -1,9 +1,17 @@
+import random
+
 import sqlalchemy as sa
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects.mysql import INTEGER
 from sqlalchemy.dialects.mysql import DECIMAL
 
 from src.models.base import Base
+
+
+def get_service_details(service_parameters):
+    probabilities = [desc["probability"] for desc in service_parameters]
+    description = random.choices(service_parameters, weights=probabilities, k=1)[0]
+    return description
 
 
 class Service(Base):
@@ -31,13 +39,12 @@ class Service(Base):
     transaction = relationship("Transaction", foreign_keys=[transaction_id])
     vehicle = relationship("Vehicle", foreign_keys=[vehicle_id])
 
-    def __init__(
-        self, date, employee, vehicle, service_type, work_cost, transaction=None
-    ):
+    def __init__(self, date, employee, vehicle, service_parameters, transaction=None):
         self.transaction = transaction
         self.employee = employee
         self.vehicle = vehicle
-        self.description = service_type
         self.start_date = date
         self.end_date = None
-        self.work_cost = work_cost
+        self.description, self.part, self.part_cost, self.work_cost, _ = (
+            get_service_details(service_parameters).values()
+        )
