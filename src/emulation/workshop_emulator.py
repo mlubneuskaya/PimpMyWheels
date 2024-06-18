@@ -1,5 +1,6 @@
 import random
 
+from src.emulation.equipment_generator import generate_initial_inventory
 from src.emulation.workshop_decision_maker import WorkshopDecisionMaker
 from src.models.service import Service
 from src.models.transaction import Transaction, TransactionMethod, TransactionTypes
@@ -13,8 +14,8 @@ class WorkshopEmulator:
         date,
         decision_maker: WorkshopDecisionMaker,
         service_parameters,
-        employee_resignation_probability,
         margin,
+        equipment,
     ):
         self.decision_maker = decision_maker
         self.workshop = Workshop(date)
@@ -31,7 +32,11 @@ class WorkshopEmulator:
         self.service_parameters = service_parameters
         self.current_employees = [self.manager] + self.mechanics
         self.employees = [self.manager] + self.mechanics
-        self.employee_resignation_probability = employee_resignation_probability
+        self.equipment = equipment
+        self.inventory = generate_initial_inventory(
+            date=date, equipment=self.equipment, workshop=self.workshop, n=1
+        )  # TODO n do decision_maker
+        self.inventory_in_stock = self.inventory
 
     def add_service_and_create_transaction(self, date, customer):
         order_type = self.decision_maker.choose_order_type(self.vehicles_in_stock)
@@ -106,15 +111,20 @@ class WorkshopEmulator:
         repairs_to_complete = self.decision_maker.choose_repairs_to_complete(
             date, self.active_repairs
         )
-        self.active_repairs = [
-            repair
-            for repair in self.active_repairs
-            if repair not in repairs_to_complete
-        ]
+        for repair in repairs_to_complete:
+            equipment_to_use = next(
+                filter(lambda obj: obj.part == repair.part, self.inventory_in_stock),
+                None,
+            )
+            if equipment_to_use:
+                repair.end_date = date
+                self.inventory_in_stock.remove(equipment_to_use)
+                equipment_to_use.service = repair
+                self.active_repairs.remove(repair)
 
     def employee_turnover(self, date):
         for employee in self.current_employees:
-            if random.random() < self.employee_resignation_probability:
+            if random.random() < self.decision_maker.employee_resignation_probability:
                 employee.resignation_date = date
                 if employee.position == "MENADŻER":
                     new_employee = self.decision_maker.create_manager(

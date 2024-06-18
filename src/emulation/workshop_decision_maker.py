@@ -15,6 +15,7 @@ class WorkshopDecisionMaker:
         selling_probability,
         repair_completion_probability,
         service_parameters,
+        employee_resignation_probability,
     ):
         self.manager_salary = manager_salary
         self.mechanics_salary = mechanics_salary
@@ -23,6 +24,7 @@ class WorkshopDecisionMaker:
         self.purchase_probability = purchase_probability
         self.selling_probability = selling_probability
         self.service_parameters = service_parameters
+        self.employee_resignation_probability = employee_resignation_probability
 
     def create_manager(self, workshop, date):
         return Employee(workshop, date, "MENADŻER", **self.manager_salary)
@@ -55,6 +57,5 @@ class WorkshopDecisionMaker:
         repairs_to_complete = []
         for repair in repairs:
             if random.random() < self.service_completion_probability:
-                repair.end_date = date
                 repairs_to_complete.append(repair)
         return repairs_to_complete

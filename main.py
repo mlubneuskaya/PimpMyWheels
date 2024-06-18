@@ -54,14 +54,15 @@ workshop_decision_maker1 = WorkshopDecisionMaker(
     selling_probability=0.2,
     repair_completion_probability=0.6,
     service_parameters=service_parameters,
+    employee_resignation_probability=1 / 365,
 )
 
 workshop_emulator1 = WorkshopEmulator(
     date=date_range[0],
     decision_maker=workshop_decision_maker1,
     service_parameters=service_parameters,
-    employee_resignation_probability=1 / 365,
     margin=0.2,
+    equipment=equipment,
 )
 
 workshop_decision_maker2 = WorkshopDecisionMaker(
@@ -72,14 +73,15 @@ workshop_decision_maker2 = WorkshopDecisionMaker(
     selling_probability=0.2,
     repair_completion_probability=0.6,
     service_parameters=service_parameters,
+    employee_resignation_probability=2 / 365,
 )
 
 workshop_emulator2 = WorkshopEmulator(
     date=date_range[0],
     decision_maker=workshop_decision_maker2,
     service_parameters=service_parameters,
-    employee_resignation_probability=2 / 365,
     margin=0.2,
+    equipment=equipment,
 )
 
 workshop_emulators = [workshop_emulator1, workshop_emulator2]
@@ -109,6 +111,11 @@ vehicles = sorted(
     key=lambda x: x.purchase.date,
 )
 
+inventory = sorted(
+    [inv for wdm in workshop_emulators for inv in wdm.inventory],
+    key=lambda x: x.delivery_date,
+)
+
 session.add_all(equipment)
 session.add_all(customer_decision_maker.all_customers)
 session.add_all(workshops)
@@ -116,4 +123,5 @@ session.add_all(employees)
 session.add_all(transactions)
 session.add_all(services)
 session.add_all(vehicles)
+session.add_all(inventory)
 session.commit()

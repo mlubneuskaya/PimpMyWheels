@@ -22,7 +22,7 @@ class Inventory(Base):
     service_id = sa.Column(
         INTEGER(unsigned=True),
         sa.ForeignKey("services.id"),
-        nullable=False,
+        nullable=True,
         comment="Id usługi",
     )
     workshop_id = sa.Column(
@@ -31,12 +31,15 @@ class Inventory(Base):
         nullable=False,
         comment="Id warsztatu",
     )
+    delivery_date = sa.Column("delivery_date", sa.Date, nullable=False)
 
-    equipment = relationship("Equipment", back_populates="inventories")
+    equipment = relationship("Equipment", back_populates="inventories")  # TODO
     service = relationship("Service")
     workshop = relationship("Workshop")
 
-    def __init__(self, equipment_id, service_id, workshop_id):
-        self.equipment_id = equipment_id
-        self.service_id = service_id
-        self.workshop_id = workshop_id
+    def __init__(self, date, equipment, workshop, part_name):
+        self.equipment = equipment
+        self.service = None
+        self.workshop = workshop
+        self.delivery_date = date
+        self.part = part_name
