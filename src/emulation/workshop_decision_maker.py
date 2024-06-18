@@ -10,7 +10,6 @@ class WorkshopDecisionMaker:
         self,
         manager_salary,
         mechanics_salary,
-        service_completion_probability,
         purchase_probability,
         selling_probability,
         repair_completion_probability,
@@ -20,7 +19,6 @@ class WorkshopDecisionMaker:
     ):
         self.manager_salary = manager_salary
         self.mechanics_salary = mechanics_salary
-        self.service_completion_probability = service_completion_probability
         self.repair_completion_probability = repair_completion_probability
         self.purchase_probability = purchase_probability
         self.selling_probability = selling_probability
@@ -58,6 +56,6 @@ class WorkshopDecisionMaker:
     def choose_repairs_to_complete(self, repairs):
         repairs_to_complete = []
         for repair in repairs:
-            if random.random() < self.service_completion_probability:
+            if random.random() < self.repair_completion_probability:
                 repairs_to_complete.append(repair)
         return repairs_to_complete

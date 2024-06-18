@@ -8,7 +8,7 @@ def emulate_day(
     for wdm in workshop_decision_makers:
         wdm.employee_turnover(date)
         wdm.complete_repairs(date)
-        if day_number // 7 == 0:
+        if day_number % 7 == 0:
             wdm.stock_replenishment(date)
     customers_today = customer_decision_maker.customers_arrival(date)
     for customer in customers_today:
