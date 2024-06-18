@@ -15,7 +15,9 @@ def generate_initial_inventory(date, equipment, workshop, n):  # TODO ceny wypos
     initial_inventory = []
     for eq in equipment:
         initial_inventory += [
-            Inventory(date=date, equipment=eq, workshop=workshop, part_name=eq.name)
+            Inventory(
+                delivery_date=date, equipment=eq, workshop=workshop, part_name=eq.name
+            )
             for _ in range(n)
         ]  # TODO join
     return initial_inventory

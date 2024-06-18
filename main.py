@@ -41,7 +41,7 @@ Base.metadata.create_all(conn)
 Session = sa.orm.sessionmaker(bind=conn)
 session = Session()
 
-date_range = pd.date_range(dates["start"], periods=10).to_pydatetime()  # .tolist()
+date_range = pd.date_range(dates["start"], periods=200).to_pydatetime()
 date_range = [d for d in date_range if d.weekday() < 5]
 
 equipment = generate_equipment_table(service_parameters=service_parameters)
@@ -49,12 +49,13 @@ equipment = generate_equipment_table(service_parameters=service_parameters)
 workshop_decision_maker1 = WorkshopDecisionMaker(
     manager_salary=employees_data["manager"],
     mechanics_salary=employees_data["mechanic"],
-    service_completion_probability=0.9,
+    service_completion_probability=0.5,
     purchase_probability=0.2,
     selling_probability=0.2,
     repair_completion_probability=0.6,
     service_parameters=service_parameters,
     employee_resignation_probability=1 / 365,
+    number_of_items_in_stock=1,
 )
 
 workshop_emulator1 = WorkshopEmulator(
@@ -74,6 +75,7 @@ workshop_decision_maker2 = WorkshopDecisionMaker(
     repair_completion_probability=0.6,
     service_parameters=service_parameters,
     employee_resignation_probability=2 / 365,
+    number_of_items_in_stock=1,
 )
 
 workshop_emulator2 = WorkshopEmulator(
@@ -94,8 +96,10 @@ customer_decision_maker = CustomerDecisionMaker(
 complaints = []
 transactions = []
 
-for date in date_range:
-    emulate_day(date, workshop_emulators, customer_decision_maker, transactions)
+for day_number, date in enumerate(date_range):
+    emulate_day(
+        date, workshop_emulators, customer_decision_maker, transactions, day_number
+    )
 
 workshops = [wdm.workshop for wdm in workshop_emulators]
 employees = sorted(
@@ -106,6 +110,7 @@ services = sorted(
     [service for wdm in workshop_emulators for service in wdm.repairs],
     key=lambda x: x.start_date,
 )
+
 vehicles = sorted(
     [vehicle for wdm in workshop_emulators for vehicle in wdm.vehicles],
     key=lambda x: x.purchase.date,

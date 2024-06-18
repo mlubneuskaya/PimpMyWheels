@@ -2,6 +2,7 @@ import random
 
 from src.emulation.equipment_generator import generate_initial_inventory
 from src.emulation.workshop_decision_maker import WorkshopDecisionMaker
+from src.models.inventory import Inventory
 from src.models.service import Service
 from src.models.transaction import Transaction, TransactionMethod, TransactionTypes
 from src.models.vehicle import Vehicle
@@ -109,7 +110,7 @@ class WorkshopEmulator:
 
     def complete_repairs(self, date):
         repairs_to_complete = self.decision_maker.choose_repairs_to_complete(
-            date, self.active_repairs
+            self.active_repairs
         )
         for repair in repairs_to_complete:
             equipment_to_use = next(
@@ -136,3 +137,32 @@ class WorkshopEmulator:
                     )
                 self.employees.append(new_employee)
                 self.current_employees.append(new_employee)
+
+    def stock_replenishment(self, date):
+        for equipment in self.equipment:
+            equipment_number_in_stock = len(
+                list(
+                    filter(
+                        lambda obj: obj.equipment == equipment, self.inventory_in_stock
+                    )
+                )
+            )
+            if (
+                equipment_number_in_stock
+                < self.decision_maker.number_of_items_in_stock / 3
+            ):  # TODO move to class attributes
+                number_to_buy = (
+                    self.decision_maker.number_of_items_in_stock
+                    - equipment_number_in_stock
+                )
+                new_inventory = [
+                    Inventory(
+                        delivery_date=date,
+                        equipment=equipment,
+                        workshop=self.workshop,
+                        part_name=equipment.name,
+                    )
+                    for _ in range(number_to_buy)
+                ]
+                self.inventory_in_stock += new_inventory
+                self.inventory += new_inventory

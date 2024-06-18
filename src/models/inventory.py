@@ -37,9 +37,9 @@ class Inventory(Base):
     service = relationship("Service")
     workshop = relationship("Workshop")
 
-    def __init__(self, date, equipment, workshop, part_name):
+    def __init__(self, delivery_date, equipment, workshop, part_name):
         self.equipment = equipment
         self.service = None
         self.workshop = workshop
-        self.delivery_date = date
+        self.delivery_date = delivery_date
         self.part = part_name
