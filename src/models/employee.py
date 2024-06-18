@@ -28,7 +28,7 @@ class Employee(Base):
     email = sa.Column("email", sa.String(60), nullable=False)
     phone_number = sa.Column("phone_number", sa.String(12), nullable=False)
     birth_date = sa.Column("birth_date", sa.Date, nullable=False)
-    address = sa.Column("address", sa.String(50), nullable=False)
+    address = sa.Column("address", sa.String(200), nullable=False)
     workshop_id = sa.orm.mapped_column(sa.ForeignKey("workshops.id"))
     position = sa.Column("position", sa.String(100), nullable=False)
     hire_date = sa.Column("hire_date", sa.Date, nullable=False)
@@ -46,7 +46,7 @@ class Employee(Base):
             f"{unidecode(self.name)}.{unidecode(self.surname)}@pimpmywheels.com"
         )
         self.phone_number = get_phone_number()
-        self.address = get_address()
+        self.address = get_address(self.workshop.city)
         self.birth_date = get_birth_date(day)
         self.position = position
         self.hire_date = day

@@ -7,7 +7,7 @@ from src.generators.personal_data_generator import (
     get_phone_number,
     get_address,
     get_birth_date,
-    get_unique_name_surname,
+    get_unique_name_surname, get_city,
 )
 
 
@@ -25,7 +25,7 @@ class Customer(Base):
     email = sa.Column("email", sa.String(60), nullable=False)
     phone_number = sa.Column("phone_number", sa.String(12), nullable=False)
     birth_date = sa.Column("birth_date", sa.Date, nullable=False)
-    address = sa.Column("address", sa.String(50), nullable=False)
+    address = sa.Column("address", sa.String(200), nullable=False)
     account_creation_date = sa.Column("account_creation_date", sa.Date, nullable=False)
     account_deletion_date = sa.Column("account_deletion_date", sa.Date)
     last_active = sa.Column("last_active", sa.Date)
@@ -34,7 +34,7 @@ class Customer(Base):
         self.name, self.surname = get_unique_name_surname()
         self.email = f"{unidecode(self.name)}.{unidecode(self.surname)}@customer.com"
         self.phone_number = get_phone_number()
-        self.address = get_address()
+        self.address = get_address(get_city())
         self.birth_date = get_birth_date(date)
         self.account_creation_date = date
         self.account_deletion_date = None

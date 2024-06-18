@@ -46,12 +46,16 @@ def get_phone_number():
     return phone_number
 
 
-def get_address():
+def get_address(city):
     address = mimesis.Address(locale=mimesis.Locale.PL).address()
     while address in UniquePersonalData.addresses:
         address = mimesis.Address(locale=mimesis.Locale.PL).address()
     UniquePersonalData.addresses.add(address)
-    return address
+    return f'{address}, {city}'
+
+
+def get_city():
+    return mimesis.Address(locale=mimesis.Locale.PL).city()
 
 
 def get_birth_date(day):
