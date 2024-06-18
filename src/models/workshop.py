@@ -4,7 +4,11 @@ import sqlalchemy as sa
 from sqlalchemy.dialects.mysql import INTEGER
 
 from src.models.base import Base
-from src.generators.personal_data_generator import get_address, get_phone_number, get_city
+from src.generators.personal_data_generator import (
+    get_address,
+    get_phone_number,
+    get_city,
+)
 
 
 class Workshop(Base):

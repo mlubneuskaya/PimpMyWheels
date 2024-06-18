@@ -7,7 +7,8 @@ from src.generators.personal_data_generator import (
     get_phone_number,
     get_address,
     get_birth_date,
-    get_unique_name_surname, get_city,
+    get_unique_name_surname,
+    get_city,
 )
 
 

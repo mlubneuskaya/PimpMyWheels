@@ -53,7 +53,7 @@ workshop_decision_maker1 = WorkshopDecisionMaker(
     selling_probability=0.2,
     repair_completion_probability=0.9,
     service_parameters=service_parameters,
-    employee_resignation_probability=1 / 365,
+    employee_resignation_probability=1 / (365 * 2),
     number_of_items_in_stock=10,
 )
 
@@ -72,7 +72,7 @@ workshop_decision_maker2 = WorkshopDecisionMaker(
     selling_probability=0.2,
     repair_completion_probability=0.8,
     service_parameters=service_parameters,
-    employee_resignation_probability=2 / 365,
+    employee_resignation_probability=1 / 365,
     number_of_items_in_stock=10,
 )
 

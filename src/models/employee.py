@@ -39,7 +39,7 @@ class Employee(Base):
 
     workshop = relationship("Workshop")
 
-    def __init__(self, workshop, day, position, min_salary, avg_salary, max_salary):
+    def __init__(self, workshop, date, position, min_salary, avg_salary, max_salary):
         self.workshop = workshop
         self.name, self.surname = get_unique_name_surname()
         self.email = (
@@ -47,9 +47,9 @@ class Employee(Base):
         )
         self.phone_number = get_phone_number()
         self.address = get_address(self.workshop.city)
-        self.birth_date = get_birth_date(day)
+        self.birth_date = get_birth_date(date)
         self.position = position
-        self.hire_date = day
+        self.hire_date = date
         self.resignation_date = None
         self.min_salary = min_salary
         self.avg_salary = avg_salary

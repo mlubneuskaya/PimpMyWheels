@@ -51,7 +51,7 @@ def get_address(city):
     while address in UniquePersonalData.addresses:
         address = mimesis.Address(locale=mimesis.Locale.PL).address()
     UniquePersonalData.addresses.add(address)
-    return f'{address}, {city}'
+    return f"{address}, {city}"
 
 
 def get_city():

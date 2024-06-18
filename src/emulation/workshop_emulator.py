@@ -137,6 +137,7 @@ class WorkshopEmulator:
                     )
                 self.employees.append(new_employee)
                 self.current_employees.append(new_employee)
+                self.current_employees.remove(employee)
 
     def stock_replenishment(self, date):
         for equipment in self.equipment:
