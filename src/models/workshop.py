@@ -23,7 +23,7 @@ class Workshop(Base):
     address = sa.Column("address", sa.String(200), nullable=False)
     phone_number = sa.Column("phone_number", sa.String(12), nullable=False)
     stations_number = sa.Column(
-        "station_number", INTEGER(unsigned=True), nullable=False
+        "number_of_stations", INTEGER(unsigned=True), nullable=False
     )
     opening_date = sa.Column("opening_date", sa.Date, nullable=False)
 
