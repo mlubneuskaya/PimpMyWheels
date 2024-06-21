@@ -30,13 +30,15 @@ class Vehicle(Base):
         comment="Id warsztatu",
     )
     brand = sa.Column(sa.String(15), nullable=True, comment="Marka pojazdu")
+    model = sa.Column(sa.String(15), nullable=True, comment="Model pojazdu")
 
     purchase = relationship("Transaction", foreign_keys=[purchase_id])
     sale = relationship("Transaction", foreign_keys=[sale_id])
     workshop = relationship("Workshop", foreign_keys=[workshop_id])
 
-    def __init__(self, purchase, workshop, brand=None, sale=None):
+    def __init__(self, purchase, workshop, brand=None, model=None, sale=None):
         self.purchase = purchase
         self.workshop = workshop
         self.brand = brand
+        self.model = model
         self.sale = sale

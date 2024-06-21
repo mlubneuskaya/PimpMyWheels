@@ -1,4 +1,5 @@
 import random
+import pandas as pd
 
 from src.emulation.equipment_generator import generate_initial_inventory
 from src.emulation.workshop_decision_maker import WorkshopDecisionMaker
@@ -28,6 +29,7 @@ class WorkshopEmulator:
         self.margin = margin
         self.repairs = []
         self.active_repairs = []
+        self.vehicles_df = pd.read_csv('data/brands.csv')
         self.vehicles = []
         self.vehicles_in_stock = []
         self.service_parameters = service_parameters
@@ -44,13 +46,18 @@ class WorkshopEmulator:
         if order_type == "repair":
             return self.create_repair_service(date, customer)
         elif order_type == "buy":  # TODO ceny i marki
-            return self.buy_vehicle(date, customer)
-        else:  # TODO ceny i marki
             return self.sell_vehicle(date, customer)
+        else:  # TODO ceny i marki
+            return self.buy_vehicle(date, customer)
 
     def create_repair_service(self, date, customer):
+        random_index = random.randint(0, len(self.vehicles_df)-1)
+        random_vehicle = self.vehicles_df.iloc[random_index]
         vehicle = Vehicle(
-            purchase=None, workshop=self.workshop, brand="Ferrari", sale=None
+            purchase=None, workshop=self.workshop,
+            brand=random_vehicle["marka"], 
+            model=random_vehicle["model"],
+            sale=None
         )
         service = Service(
             date=date,
@@ -72,15 +79,15 @@ class WorkshopEmulator:
         self.repairs.append(service)
         return transaction
 
-    def buy_vehicle(self, date, customer):
+    def sell_vehicle(self, date, customer):
+        vehicle = random.choice(self.vehicles_in_stock)
         transaction = Transaction(
             transaction_method=TransactionMethod["card"],
             sender=customer,
             date=date,
             transaction_type=TransactionTypes["income"],
-            value=10000,
+            value=int(vehicle.purchase.value) * 1.25,
         )
-        vehicle = random.choice(self.vehicles_in_stock)
         vehicle.sale = transaction
         self.vehicles_in_stock.remove(vehicle)
         service = Service(
@@ -93,16 +100,21 @@ class WorkshopEmulator:
         self.repairs.append(service)
         return transaction
 
-    def sell_vehicle(self, date, customer):
+    def buy_vehicle(self, date, customer):
+        random_index = random.randint(0, len(self.vehicles_df)-1)
+        random_vehicle = self.vehicles_df.iloc[random_index]
         transaction = Transaction(
             transaction_method=TransactionMethod["card"],
             sender=customer,
             date=date,
             transaction_type=TransactionTypes["cost"],
-            value=5000,
+            value=int(random_vehicle["cena"]),
         )
         vehicle = Vehicle(
-            purchase=transaction, workshop=self.workshop, brand="Bugatti", sale=None
+            purchase=transaction, workshop=self.workshop,
+            brand=random_vehicle["marka"], 
+            model=random_vehicle["model"],
+            sale=None
         )
         self.vehicles.append(vehicle)
         self.vehicles_in_stock.append(vehicle)
