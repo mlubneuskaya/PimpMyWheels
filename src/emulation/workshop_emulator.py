@@ -29,7 +29,7 @@ class WorkshopEmulator:
         self.margin = margin
         self.repairs = []
         self.active_repairs = []
-        self.vehicles_df = pd.read_csv('data/brands.csv')
+        self.vehicles_df = pd.read_csv("data/brands.csv")
         self.vehicles = []
         self.vehicles_available_for_sale = []
         self.service_parameters = service_parameters
@@ -42,7 +42,9 @@ class WorkshopEmulator:
         self.inventory_in_stock = self.inventory
 
     def add_service_and_create_transaction(self, date, customer):
-        order_type = self.decision_maker.choose_order_type(self.vehicles_available_for_sale)
+        order_type = self.decision_maker.choose_order_type(
+            self.vehicles_available_for_sale
+        )
         if order_type == "repair":
             return self.create_repair_service(date, customer)
         elif order_type == "buy":  # TODO ceny i marki
@@ -53,10 +55,11 @@ class WorkshopEmulator:
     def create_repair_service(self, date, customer):
         random_vehicle = self.vehicles_df.sample().iloc[0]
         vehicle = Vehicle(
-            purchase=None, workshop=self.workshop,
+            purchase=None,
+            workshop=self.workshop,
             brand=random_vehicle["marka"],
             model=random_vehicle["model"],
-            sale=None
+            sale=None,
         )
         service = Service(
             date=date,
@@ -105,10 +108,11 @@ class WorkshopEmulator:
             value=float(random_vehicle["cena"]),
         )
         vehicle = Vehicle(
-            purchase=transaction, workshop=self.workshop,
-            brand=random_vehicle["marka"], 
+            purchase=transaction,
+            workshop=self.workshop,
+            brand=random_vehicle["marka"],
             model=random_vehicle["model"],
-            sale=None
+            sale=None,
         )
         self.vehicles.append(vehicle)
         service = Service(

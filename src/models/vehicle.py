@@ -17,9 +17,15 @@ class Vehicle(Base):
     brand = sa.Column(sa.String(15), nullable=True, comment="Marka pojazdu")
     model = sa.Column(sa.String(15), nullable=True, comment="Model pojazdu")
 
-    purchase = relationship("Transaction", foreign_keys=[purchase_id], back_populates="purchased_vehicles")
-    sale = relationship("Transaction", foreign_keys=[sale_id], back_populates="sold_vehicles")
-    workshop = relationship("Workshop", foreign_keys=[workshop_id], back_populates="vehicles")
+    purchase = relationship(
+        "Transaction", foreign_keys=[purchase_id], back_populates="purchased_vehicles"
+    )
+    sale = relationship(
+        "Transaction", foreign_keys=[sale_id], back_populates="sold_vehicles"
+    )
+    workshop = relationship(
+        "Workshop", foreign_keys=[workshop_id], back_populates="vehicles"
+    )
     repair = relationship("Service", back_populates="vehicle")
 
     def __init__(self, purchase, workshop, brand=None, model=None, sale=None):
