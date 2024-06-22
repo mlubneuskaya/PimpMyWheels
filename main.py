@@ -100,24 +100,10 @@ for day_number, date in enumerate(date_range):
     )
 
 workshops = [wdm.workshop for wdm in workshop_emulators]
-employees = sorted(
-    [emp for wdm in workshop_emulators for emp in wdm.employees],
-    key=lambda x: x.hire_date,
-)
-services = sorted(
-    [service for wdm in workshop_emulators for service in wdm.repairs],
-    key=lambda x: x.start_date,
-)
-
-vehicles = sorted(
-    [vehicle for wdm in workshop_emulators for vehicle in wdm.vehicles],
-    key=lambda x: x.purchase.date,
-)
-
-inventory = sorted(
-    [inv for wdm in workshop_emulators for inv in wdm.inventory],
-    key=lambda x: x.delivery_date,
-)
+employees = [emp for wdm in workshop_emulators for emp in wdm.employees]
+services = [service for wdm in workshop_emulators for service in wdm.repairs]
+vehicles = [vehicle for wdm in workshop_emulators for vehicle in wdm.vehicles]
+inventory = [inv for wdm in workshop_emulators for inv in wdm.inventory]
 
 session.add_all(equipment)
 session.add_all(customer_decision_maker.all_customers)
