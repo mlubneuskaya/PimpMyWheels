@@ -18,8 +18,8 @@ class Inventory(Base):
     delivery_date = sa.Column("delivery_date", sa.Date, nullable=False)
 
     equipment = relationship("Equipment", back_populates="inventories")
-    service = relationship("Service")
-    workshop = relationship("Workshop")
+    service = relationship("Service", back_populates="inventory")
+    workshop = relationship("Workshop", back_populates="inventory")
 
     def __init__(self, delivery_date, equipment, workshop, part_name):
         self.equipment = equipment

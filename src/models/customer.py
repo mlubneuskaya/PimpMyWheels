@@ -1,4 +1,5 @@
 import sqlalchemy as sa
+from sqlalchemy.orm import relationship
 from unidecode import unidecode
 from sqlalchemy.dialects.mysql import INTEGER
 
@@ -30,6 +31,8 @@ class Customer(Base):
     account_creation_date = sa.Column("account_creation_date", sa.Date, nullable=False)
     account_deletion_date = sa.Column("account_deletion_date", sa.Date)
     last_active = sa.Column("last_active", sa.Date)
+
+    transactions = relationship("Transaction", back_populates="sender")
 
     def __init__(self, date):
         self.name, self.surname = get_unique_name_surname()

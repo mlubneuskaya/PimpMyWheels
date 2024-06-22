@@ -27,6 +27,10 @@ class Workshop(Base):
     )
     opening_date = sa.Column("opening_date", sa.Date, nullable=False)
 
+    employees = sa.orm.relationship("Employee", back_populates="workshop")
+    vehicles = sa.orm.relationship("Vehicle", back_populates="workshop")
+    inventory = sa.orm.relationship("Inventory", back_populates="workshop")
+
     def __init__(self, day):
         self.city = get_city()
         self.address = get_address(self.city)

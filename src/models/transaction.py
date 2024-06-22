@@ -36,7 +36,10 @@ class Transaction(Base):
         "value", DECIMAL(precision=8, scale=2, unsigned=True), nullable=False
     )
 
-    sender = sa.orm.relationship("Customer")
+    sender = sa.orm.relationship("Customer", back_populates="transactions")
+    purchased_vehicles = sa.orm.relationship("Vehicle", foreign_keys="Vehicle.purchase_id", back_populates="purchase")
+    sold_vehicles = sa.orm.relationship("Vehicle", foreign_keys="Vehicle.sale_id", back_populates="sale")
+    repairs = sa.orm.relationship("Service", back_populates="transaction")
 
     def __init__(self, transaction_method, sender, date, transaction_type, value):
         self.transaction_method = transaction_method

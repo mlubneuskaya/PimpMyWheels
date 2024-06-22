@@ -37,7 +37,8 @@ class Employee(Base):
         "salary", DECIMAL(precision=8, scale=2, unsigned=True), nullable=False
     )
 
-    workshop = relationship("Workshop")
+    workshop = relationship("Workshop", back_populates="employees")
+    repairs = relationship("Service", back_populates="employee")
 
     def __init__(self, workshop, date, position, min_salary, avg_salary, max_salary):
         self.workshop = workshop
