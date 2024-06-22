@@ -11,24 +11,9 @@ class Vehicle(Base):
     id = sa.Column(
         INTEGER(unsigned=True), autoincrement=True, primary_key=True, nullable=False
     )
-    purchase_id = sa.Column(
-        INTEGER(unsigned=True),
-        sa.ForeignKey("transactions.id"),
-        nullable=True,
-        comment="Id transakcji zakupu",
-    )
-    sale_id = sa.Column(
-        INTEGER(unsigned=True),
-        sa.ForeignKey("transactions.id"),
-        nullable=True,
-        comment="Id transakcji sprzedaży",
-    )
-    workshop_id = sa.Column(
-        INTEGER(unsigned=True),
-        sa.ForeignKey("workshops.id"),
-        nullable=False,
-        comment="Id warsztatu",
-    )
+    purchase_id = sa.orm.mapped_column(sa.ForeignKey("transactions.id"), nullable=True)
+    sale_id = sa.orm.mapped_column(sa.ForeignKey("transactions.id"), nullable=True)
+    workshop_id = sa.orm.mapped_column(sa.ForeignKey("workshops.id"), nullable=False)
     brand = sa.Column(sa.String(15), nullable=True, comment="Marka pojazdu")
     model = sa.Column(sa.String(15), nullable=True, comment="Model pojazdu")
 

@@ -15,7 +15,6 @@ class TransactionTypes(enum.Enum):
     cost = 2
 
 
-# TODO add workshop_id
 class Transaction(Base):
     __tablename__ = "transactions"
     id = sa.Column(

@@ -33,7 +33,7 @@ class WorkshopDecisionMaker:
         return Employee(workshop, date, "MECHANIK", **self.mechanics_salary)
 
     def choose_order_type(self, vehicles_in_stock):
-        if not vehicles_in_stock:
+        if len(vehicles_in_stock) < 3:
             repair_selling_probability = (
                 self.repair_completion_probability + self.selling_probability
             )
@@ -44,7 +44,7 @@ class WorkshopDecisionMaker:
             ]
         else:
             order_probabilities = [
-                self.repair_completion_probability,
+                1 - self.purchase_probability - self.selling_probability,
                 self.purchase_probability,
                 self.selling_probability,
             ]

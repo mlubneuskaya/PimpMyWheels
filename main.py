@@ -41,7 +41,7 @@ Base.metadata.create_all(conn)
 Session = sa.orm.sessionmaker(bind=conn)
 session = Session()
 
-date_range = pd.date_range(dates["start"], periods=100).to_pydatetime()
+date_range = pd.date_range(dates["start"], periods=30).to_pydatetime()
 date_range = [d for d in date_range if d.weekday() < 5]
 
 equipment = generate_equipment_table(service_parameters=service_parameters)
@@ -49,9 +49,9 @@ equipment = generate_equipment_table(service_parameters=service_parameters)
 workshop_decision_maker1 = WorkshopDecisionMaker(
     manager_salary=employees_data["manager"],
     mechanics_salary=employees_data["mechanic"],
-    purchase_probability=0.2,
-    selling_probability=0.2,
-    repair_completion_probability=0.9,
+    purchase_probability=0.3,
+    selling_probability=0.15,
+    repair_completion_probability=0.4,
     service_parameters=service_parameters,
     employee_resignation_probability=1 / (365 * 2),
     number_of_items_in_stock=10,
@@ -70,7 +70,7 @@ workshop_decision_maker2 = WorkshopDecisionMaker(
     mechanics_salary=employees_data["mechanic"],
     purchase_probability=0.2,
     selling_probability=0.2,
-    repair_completion_probability=0.8,
+    repair_completion_probability=0.3,
     service_parameters=service_parameters,
     employee_resignation_probability=1 / 365,
     number_of_items_in_stock=10,
