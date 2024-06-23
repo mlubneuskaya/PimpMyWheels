@@ -18,7 +18,7 @@ class WorkshopEmulator:
         service_parameters,
         margin,
         equipment,
-        personal_data_generator
+        personal_data_generator,
     ):
         self.decision_maker = decision_maker
         self.workshop = Workshop(date, personal_data_generator)

@@ -29,10 +29,22 @@ class WorkshopDecisionMaker:
         self.personal_data_generator = personal_data_generator
 
     def create_manager(self, workshop, date):
-        return Employee(date, workshop, self.personal_data_generator, "MENADŻER", **self.manager_salary)
+        return Employee(
+            date,
+            workshop,
+            self.personal_data_generator,
+            "MENADŻER",
+            **self.manager_salary
+        )
 
     def create_mechanic(self, workshop, date):
-        return Employee(date, workshop, self.personal_data_generator, "MECHANIK", **self.mechanics_salary)
+        return Employee(
+            date,
+            workshop,
+            self.personal_data_generator,
+            "MECHANIK",
+            **self.mechanics_salary
+        )
 
     def choose_order_type(self, vehicles_in_stock):
         if len(vehicles_in_stock) < 3:

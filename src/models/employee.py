@@ -34,7 +34,16 @@ class Employee(Base):
     workshop = relationship("Workshop", back_populates="employees")
     repairs = relationship("Service", back_populates="employee")
 
-    def __init__(self, date, workshop, personal_data_generator, position, min_salary, avg_salary, max_salary):
+    def __init__(
+        self,
+        date,
+        workshop,
+        personal_data_generator,
+        position,
+        min_salary,
+        avg_salary,
+        max_salary,
+    ):
         self.workshop = workshop
         self.name, self.surname = personal_data_generator.get_unique_name_surname()
         self.email = (
@@ -53,6 +62,8 @@ class Employee(Base):
 
     def get_salary(self):
         scale = (self.avg_salary - self.min_salary) / 2
-        a, b = (self.min_salary - self.avg_salary) / scale, (self.max_salary - self.avg_salary) / scale
+        a, b = (self.min_salary - self.avg_salary) / scale, (
+            self.max_salary - self.avg_salary
+        ) / scale
         salary = scipy.stats.truncnorm.rvs(a=a, b=b, loc=self.avg_salary, scale=scale)
         return round(salary, 0)

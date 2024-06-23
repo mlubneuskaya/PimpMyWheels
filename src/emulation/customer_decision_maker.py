@@ -34,7 +34,10 @@ class CustomerDecisionMaker:
 
     def customers_arrival(self, date):
         number_of_new_customers = stats.poisson.rvs(self.new_customers_per_day)
-        new_customers = [Customer(date, self.personal_data_generator) for _ in range(number_of_new_customers)]
+        new_customers = [
+            Customer(date, self.personal_data_generator)
+            for _ in range(number_of_new_customers)
+        ]
         number_of_regular_customers = stats.poisson.rvs(
             self.regular_customers_per_day * len(self.active_customers)
         )
