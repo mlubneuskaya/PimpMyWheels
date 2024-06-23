@@ -52,6 +52,7 @@ class WorkshopEmulator:
 
     def create_repair_service(self, date, customer):
         vehicle = self.decision_maker.generate_vehicle(self.workshop)
+        self.vehicles.append(vehicle)
         service = Service(
             date=date,
             employee=random.choice(self.mechanics),
@@ -76,6 +77,7 @@ class WorkshopEmulator:
 
     def sell_vehicle(self, date, customer):
         vehicle = random.choice(self.vehicles_available_for_sale)
+        self.vehicles_available_for_sale.remove(vehicle)
         transaction = Transaction(
             transaction_method=TransactionMethod["card"],
             sender=customer,
@@ -84,11 +86,11 @@ class WorkshopEmulator:
             value=vehicle.price * random.uniform(1.1, 1.3),
         )
         vehicle.sale = transaction
-        self.vehicles_available_for_sale.remove(vehicle)
         return transaction
 
     def buy_vehicle(self, date, customer):
         vehicle = self.decision_maker.generate_vehicle(self.workshop)
+        self.vehicles.append(vehicle)
         transaction = Transaction(
             transaction_method=TransactionMethod["card"],
             sender=customer,
@@ -97,7 +99,6 @@ class WorkshopEmulator:
             value=vehicle.price,
         )
         vehicle.purchase = transaction
-        self.vehicles.append(vehicle)
         service = Service(
             date=date,
             employee=random.choice(self.mechanics),
