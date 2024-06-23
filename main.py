@@ -2,7 +2,7 @@ import json
 import os
 
 from src.emulation.customer_decision_maker import CustomerDecisionMaker
-from src.emulation.equipment_generator import generate_equipment_table
+from src.generators.equipment_generator import generate_equipment_table
 from src.emulation.workshop_decision_maker import WorkshopDecisionMaker
 from src.emulation.workshop_emulator import WorkshopEmulator
 

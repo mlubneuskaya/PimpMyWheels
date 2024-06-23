@@ -1,7 +1,7 @@
 import random
 import pandas as pd
 
-from src.emulation.equipment_generator import generate_initial_inventory
+from src.generators.equipment_generator import generate_initial_inventory
 from src.emulation.workshop_decision_maker import WorkshopDecisionMaker
 from src.models.inventory import Inventory
 from src.models.service import Service
