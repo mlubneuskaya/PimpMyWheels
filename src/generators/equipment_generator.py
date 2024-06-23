@@ -11,7 +11,7 @@ def generate_equipment_table(service_parameters):
     return equipment
 
 
-def generate_initial_inventory(date, equipment, workshop, n):  # TODO ceny wyposażenia
+def generate_initial_inventory(date, equipment, workshop, n):
     initial_inventory = []
     for eq in equipment:
         initial_inventory += [
@@ -19,5 +19,5 @@ def generate_initial_inventory(date, equipment, workshop, n):  # TODO ceny wypos
                 delivery_date=date, equipment=eq, workshop=workshop, part_name=eq.name
             )
             for _ in range(n)
-        ]  # TODO join
+        ]
     return initial_inventory

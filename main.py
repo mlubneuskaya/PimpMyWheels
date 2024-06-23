@@ -28,6 +28,7 @@ with open("data\\parameters\\services_parts.json", "r", encoding="utf-8") as fil
 names = pd.read_csv("data\\names.csv")
 female_surnames = pd.read_csv("data\\female_surnames.csv")
 male_surnames = pd.read_csv("data\\male_surnames.csv")
+vehicles_info = pd.read_csv("data\\brands.csv")
 
 load_dotenv()
 url_object = sa.URL.create(
@@ -66,6 +67,9 @@ workshop_decision_maker1 = WorkshopDecisionMaker(
     employee_resignation_probability=1 / (365 * 2),
     number_of_items_in_stock=10,
     personal_data_generator=personal_data_generator,
+    initial_equipment_number=10,
+    vehicles_info=vehicles_info,
+    stock_replenishment_fraction=3,
 )
 
 workshop_emulator1 = WorkshopEmulator(
@@ -87,6 +91,9 @@ workshop_decision_maker2 = WorkshopDecisionMaker(
     employee_resignation_probability=1 / 365,
     number_of_items_in_stock=10,
     personal_data_generator=personal_data_generator,
+    initial_equipment_number=10,
+    vehicles_info=vehicles_info,
+    stock_replenishment_fraction=3,
 )
 
 workshop_emulator2 = WorkshopEmulator(

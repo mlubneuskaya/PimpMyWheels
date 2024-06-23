@@ -1,12 +1,10 @@
 import random
-import pandas as pd
 
 from src.generators.equipment_generator import generate_initial_inventory
 from src.emulation.workshop_decision_maker import WorkshopDecisionMaker
 from src.models.inventory import Inventory
 from src.models.service import Service
 from src.models.transaction import Transaction, TransactionMethod, TransactionTypes
-from src.models.vehicle import Vehicle
 from src.models.workshop import Workshop
 
 
@@ -30,7 +28,6 @@ class WorkshopEmulator:
         self.margin = margin
         self.repairs = []
         self.active_repairs = []
-        self.vehicles_df = pd.read_csv("data/brands.csv")
         self.vehicles = []
         self.vehicles_available_for_sale = []
         self.service_parameters = service_parameters
@@ -38,8 +35,8 @@ class WorkshopEmulator:
         self.employees = [self.manager] + self.mechanics
         self.equipment = equipment
         self.inventory = generate_initial_inventory(
-            date=date, equipment=self.equipment, workshop=self.workshop, n=1
-        )  # TODO n do decision_maker
+            date=date, equipment=self.equipment, workshop=self.workshop, n=self.decision_maker.initial_equipment_number
+        )
         self.inventory_in_stock = self.inventory
 
     def add_service_and_create_transaction(self, date, customer):
@@ -48,26 +45,20 @@ class WorkshopEmulator:
         )
         if order_type == "repair":
             return self.create_repair_service(date, customer)
-        elif order_type == "buy":  # TODO ceny i marki
+        elif order_type == "buy":
             return self.sell_vehicle(date, customer)
-        else:  # TODO ceny i marki
+        else:
             return self.buy_vehicle(date, customer)
 
     def create_repair_service(self, date, customer):
-        random_vehicle = self.vehicles_df.sample().iloc[0]
-        vehicle = Vehicle(
-            purchase=None,
-            workshop=self.workshop,
-            brand=random_vehicle["marka"],
-            model=random_vehicle["model"],
-            sale=None,
-        )
+        vehicle = self.decision_maker.generate_vehicle(self.workshop)
         service = Service(
             date=date,
             employee=random.choice(self.mechanics),
             vehicle=vehicle,
             service_parameters=self.service_parameters,
         )
+        repair_cost = (service.work_cost + service.part_cost) * (1 + self.margin)
         transaction = Transaction(
             transaction_method=random.choices(
                 list(TransactionMethod), weights=[0.2, 0.8]
@@ -75,8 +66,9 @@ class WorkshopEmulator:
             sender=customer,
             date=date,
             transaction_type=TransactionTypes["income"],
-            value=(service.work_cost + service.part_cost) * (1 + self.margin),
+            value=repair_cost,
         )
+        vehicle.price += repair_cost
         service.transaction = transaction
         self.active_repairs.append(service)
         self.repairs.append(service)
@@ -84,37 +76,27 @@ class WorkshopEmulator:
 
     def sell_vehicle(self, date, customer):
         vehicle = random.choice(self.vehicles_available_for_sale)
-        repair_cost = next(
-            filter(lambda repair: repair.vehicle == vehicle, self.repairs),
-            None,
-        ).part_cost
         transaction = Transaction(
             transaction_method=TransactionMethod["card"],
             sender=customer,
             date=date,
             transaction_type=TransactionTypes["income"],
-            value=(int(vehicle.purchase.value) + repair_cost) * 1.25,
+            value=vehicle.price * random.uniform(1.1, 1.3),
         )
         vehicle.sale = transaction
         self.vehicles_available_for_sale.remove(vehicle)
         return transaction
 
     def buy_vehicle(self, date, customer):
-        random_vehicle = self.vehicles_df.sample().iloc[0]
+        vehicle = self.decision_maker.generate_vehicle(self.workshop)
         transaction = Transaction(
             transaction_method=TransactionMethod["card"],
             sender=customer,
             date=date,
             transaction_type=TransactionTypes["cost"],
-            value=float(random_vehicle["cena"]),
+            value=vehicle.price,
         )
-        vehicle = Vehicle(
-            purchase=transaction,
-            workshop=self.workshop,
-            brand=random_vehicle["marka"],
-            model=random_vehicle["model"],
-            sale=None,
-        )
+        vehicle.purchase = transaction
         self.vehicles.append(vehicle)
         service = Service(
             date=date,
@@ -170,8 +152,8 @@ class WorkshopEmulator:
             )
             if (
                 equipment_number_in_stock
-                < self.decision_maker.number_of_items_in_stock / 3
-            ):  # TODO move to class attributes
+                < self.decision_maker.number_of_items_in_stock / self.decision_maker.stock_replenishment_fraction
+            ):
                 number_to_buy = (
                     self.decision_maker.number_of_items_in_stock
                     - equipment_number_in_stock

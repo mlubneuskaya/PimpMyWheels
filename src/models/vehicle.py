@@ -28,9 +28,10 @@ class Vehicle(Base):
     )
     repair = relationship("Service", back_populates="vehicle")
 
-    def __init__(self, purchase, workshop, brand=None, model=None, sale=None):
-        self.purchase = purchase
+    def __init__(self, workshop, brand, model, price):
+        self.purchase = None
         self.workshop = workshop
         self.brand = brand
         self.model = model
-        self.sale = sale
+        self.sale = None
+        self.price = price
