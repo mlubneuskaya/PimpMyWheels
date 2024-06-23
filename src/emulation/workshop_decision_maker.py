@@ -16,6 +16,7 @@ class WorkshopDecisionMaker:
         service_parameters,
         employee_resignation_probability,
         number_of_items_in_stock,
+        personal_data_generator,
     ):
         self.manager_salary = manager_salary
         self.mechanics_salary = mechanics_salary
@@ -25,12 +26,13 @@ class WorkshopDecisionMaker:
         self.service_parameters = service_parameters
         self.employee_resignation_probability = employee_resignation_probability
         self.number_of_items_in_stock = number_of_items_in_stock
+        self.personal_data_generator = personal_data_generator
 
     def create_manager(self, workshop, date):
-        return Employee(workshop, date, "MENADŻER", **self.manager_salary)
+        return Employee(date, workshop, self.personal_data_generator, "MENADŻER", **self.manager_salary)
 
     def create_mechanic(self, workshop, date):
-        return Employee(workshop, date, "MECHANIK", **self.mechanics_salary)
+        return Employee(date, workshop, self.personal_data_generator, "MECHANIK", **self.mechanics_salary)
 
     def choose_order_type(self, vehicles_in_stock):
         if len(vehicles_in_stock) < 3:

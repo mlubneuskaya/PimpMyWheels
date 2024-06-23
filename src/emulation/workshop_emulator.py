@@ -18,9 +18,10 @@ class WorkshopEmulator:
         service_parameters,
         margin,
         equipment,
+        personal_data_generator
     ):
         self.decision_maker = decision_maker
-        self.workshop = Workshop(date)
+        self.workshop = Workshop(date, personal_data_generator)
         self.manager = decision_maker.create_manager(self.workshop, date)
         self.mechanics = [
             self.decision_maker.create_mechanic(self.workshop, date)

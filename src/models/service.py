@@ -33,7 +33,7 @@ class Service(Base):
         sa.ForeignKey("transactions.id"), nullable=True
     )
     description = sa.Column("description", sa.String(100), nullable=False)
-    vehicle_id = sa.orm.mapped_column(sa.ForeignKey("vehicles.id"))
+    vehicle_id = sa.orm.mapped_column(sa.ForeignKey("vehicles.id"), nullable=False)
 
     employee = relationship(
         "Employee", foreign_keys=[employee_id], back_populates="repairs"

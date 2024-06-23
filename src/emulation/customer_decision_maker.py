@@ -11,12 +11,14 @@ class CustomerDecisionMaker:
         account_deactivation_probability,
         regular_customers_per_day,
         new_customers_per_day,
+        personal_data_generator,
     ):
         self.account_deactivation_probability = account_deactivation_probability
         self.active_customers = []
         self.all_customers = []
         self.regular_customers_per_day = regular_customers_per_day
         self.new_customers_per_day = new_customers_per_day
+        self.personal_data_generator = personal_data_generator
 
     def accounts_deactivation(self, date):
         number_of_accounts_to_deactivate = stats.poisson.rvs(
@@ -32,7 +34,7 @@ class CustomerDecisionMaker:
 
     def customers_arrival(self, date):
         number_of_new_customers = stats.poisson.rvs(self.new_customers_per_day)
-        new_customers = [Customer(date) for _ in range(number_of_new_customers)]
+        new_customers = [Customer(date, self.personal_data_generator) for _ in range(number_of_new_customers)]
         number_of_regular_customers = stats.poisson.rvs(
             self.regular_customers_per_day * len(self.active_customers)
         )
