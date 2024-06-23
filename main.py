@@ -47,7 +47,7 @@ Base.metadata.create_all(conn)
 Session = sa.orm.sessionmaker(bind=conn)
 session = Session()
 
-date_range = pd.date_range(dates["start"], periods=30).to_pydatetime()
+date_range = pd.date_range(dates["start"], periods=365).to_pydatetime()
 date_range = [d for d in date_range if d.weekday() < 5]
 
 equipment = generate_equipment_table(service_parameters=service_parameters)
@@ -62,7 +62,7 @@ workshop_decision_maker1 = WorkshopDecisionMaker(
     mechanics_salary=employees_data["mechanic"],
     purchase_probability=0.3,
     selling_probability=0.15,
-    repair_completion_probability=0.4,
+    repair_completion_probability=0.5,
     service_parameters=service_parameters,
     employee_resignation_probability=1 / (365 * 2),
     number_of_items_in_stock=10,
@@ -85,8 +85,8 @@ workshop_decision_maker2 = WorkshopDecisionMaker(
     manager_salary=employees_data["manager"],
     mechanics_salary=employees_data["mechanic"],
     purchase_probability=0.2,
-    selling_probability=0.2,
-    repair_completion_probability=0.3,
+    selling_probability=0.15,
+    repair_completion_probability=0.4,
     service_parameters=service_parameters,
     employee_resignation_probability=1 / 365,
     number_of_items_in_stock=10,
@@ -108,8 +108,8 @@ workshop_emulator2 = WorkshopEmulator(
 workshop_emulators = [workshop_emulator1, workshop_emulator2]
 customer_decision_maker = CustomerDecisionMaker(
     account_deactivation_probability=0.01,
-    regular_customers_per_day=0.1,
-    new_customers_per_day=4,
+    regular_customers_per_day=0.001,
+    new_customers_per_day=6,
     personal_data_generator=personal_data_generator,
 )
 
