@@ -32,7 +32,7 @@ class Customer(Base):
     account_deletion_date = sa.Column("account_deletion_date", sa.Date)
     last_active = sa.Column("last_active", sa.Date)
 
-    transactions = relationship("Transaction", back_populates="sender")
+    transactions = sa.orm.relationship("Transaction", back_populates="sender")
 
     def __init__(self, date):
         self.name, self.surname = get_unique_name_surname()
