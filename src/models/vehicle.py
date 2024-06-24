@@ -11,34 +11,27 @@ class Vehicle(Base):
     id = sa.Column(
         INTEGER(unsigned=True), autoincrement=True, primary_key=True, nullable=False
     )
-    purchase_id = sa.Column(
-        INTEGER(unsigned=True),
-        sa.ForeignKey("transactions.id"),
-        nullable=True,
-        comment="Id transakcji zakupu",
-    )
-    sale_id = sa.Column(
-        INTEGER(unsigned=True),
-        sa.ForeignKey("transactions.id"),
-        nullable=True,
-        comment="Id transakcji sprzedaży",
-    )
-    workshop_id = sa.Column(
-        INTEGER(unsigned=True),
-        sa.ForeignKey("workshops.id"),
-        nullable=False,
-        comment="Id warsztatu",
-    )
+    purchase_id = sa.orm.mapped_column(sa.ForeignKey("transactions.id"), nullable=True)
+    sale_id = sa.orm.mapped_column(sa.ForeignKey("transactions.id"), nullable=True)
+    workshop_id = sa.orm.mapped_column(sa.ForeignKey("workshops.id"), nullable=False)
     brand = sa.Column(sa.String(15), nullable=True, comment="Marka pojazdu")
     model = sa.Column(sa.String(15), nullable=True, comment="Model pojazdu")
 
-    purchase = relationship("Transaction", foreign_keys=[purchase_id])
-    sale = relationship("Transaction", foreign_keys=[sale_id])
-    workshop = relationship("Workshop", foreign_keys=[workshop_id])
+    purchase = relationship(
+        "Transaction", foreign_keys=[purchase_id], back_populates="purchased_vehicles"
+    )
+    sale = relationship(
+        "Transaction", foreign_keys=[sale_id], back_populates="sold_vehicles"
+    )
+    workshop = relationship(
+        "Workshop", foreign_keys=[workshop_id], back_populates="vehicles"
+    )
+    repair = relationship("Service", back_populates="vehicle")
 
-    def __init__(self, purchase, workshop, brand=None, model=None, sale=None):
-        self.purchase = purchase
+    def __init__(self, workshop, brand, model, price):
+        self.purchase = None
         self.workshop = workshop
         self.brand = brand
         self.model = model
-        self.sale = sale
+        self.sale = None
+        self.price = price

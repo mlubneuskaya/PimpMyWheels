@@ -33,11 +33,18 @@ class Service(Base):
         sa.ForeignKey("transactions.id"), nullable=True
     )
     description = sa.Column("description", sa.String(100), nullable=False)
-    vehicle_id = sa.orm.mapped_column(sa.ForeignKey("vehicles.id"))
+    vehicle_id = sa.orm.mapped_column(sa.ForeignKey("vehicles.id"), nullable=False)
 
-    employee = relationship("Employee", foreign_keys=[employee_id])
-    transaction = relationship("Transaction", foreign_keys=[transaction_id])
-    vehicle = relationship("Vehicle", foreign_keys=[vehicle_id])
+    employee = relationship(
+        "Employee", foreign_keys=[employee_id], back_populates="repairs"
+    )
+    transaction = relationship(
+        "Transaction", foreign_keys=[transaction_id], back_populates="repairs"
+    )
+    vehicle = relationship(
+        "Vehicle", foreign_keys=[vehicle_id], back_populates="repair"
+    )
+    inventory = relationship("Inventory", back_populates="service")
 
     def __init__(self, date, employee, vehicle, service_parameters, transaction=None):
         self.transaction = transaction

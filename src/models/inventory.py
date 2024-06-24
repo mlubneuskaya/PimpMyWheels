@@ -11,31 +11,15 @@ class Inventory(Base):
         INTEGER(unsigned=True),
         autoincrement=True,
         primary_key=True,
-        comment="Id inwentarza",
     )
-    equipment_id = sa.Column(
-        INTEGER(unsigned=True),
-        sa.ForeignKey("equipment.id"),
-        nullable=False,
-        comment="Id wyposażenia",
-    )
-    service_id = sa.Column(
-        INTEGER(unsigned=True),
-        sa.ForeignKey("services.id"),
-        nullable=True,
-        comment="Id usługi",
-    )
-    workshop_id = sa.Column(
-        INTEGER(unsigned=True),
-        sa.ForeignKey("workshops.id"),
-        nullable=False,
-        comment="Id warsztatu",
-    )
+    equipment_id = sa.orm.mapped_column(sa.ForeignKey("equipment.id"), nullable=False)
+    service_id = sa.orm.mapped_column(sa.ForeignKey("services.id"), nullable=True)
+    workshop_id = sa.orm.mapped_column(sa.ForeignKey("workshops.id"), nullable=False)
     delivery_date = sa.Column("delivery_date", sa.Date, nullable=False)
 
-    equipment = relationship("Equipment", back_populates="inventories")  # TODO
-    service = relationship("Service")
-    workshop = relationship("Workshop")
+    equipment = relationship("Equipment", back_populates="inventories")
+    service = relationship("Service", back_populates="inventory")
+    workshop = relationship("Workshop", back_populates="inventory")
 
     def __init__(self, delivery_date, equipment, workshop, part_name):
         self.equipment = equipment

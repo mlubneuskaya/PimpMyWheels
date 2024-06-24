@@ -1,15 +1,9 @@
 import sqlalchemy as sa
+from sqlalchemy.orm import relationship
 from unidecode import unidecode
 from sqlalchemy.dialects.mysql import INTEGER
 
 from src.models.base import Base
-from src.generators.personal_data_generator import (
-    get_phone_number,
-    get_address,
-    get_birth_date,
-    get_unique_name_surname,
-    get_city,
-)
 
 
 class Customer(Base):
@@ -31,12 +25,14 @@ class Customer(Base):
     account_deletion_date = sa.Column("account_deletion_date", sa.Date)
     last_active = sa.Column("last_active", sa.Date)
 
-    def __init__(self, date):
-        self.name, self.surname = get_unique_name_surname()
+    transactions = sa.orm.relationship("Transaction", back_populates="sender")
+
+    def __init__(self, date, personal_data_generator):
+        self.name, self.surname = personal_data_generator.get_unique_name_surname()
         self.email = f"{unidecode(self.name)}.{unidecode(self.surname)}@customer.com"
-        self.phone_number = get_phone_number()
-        self.address = get_address(get_city())
-        self.birth_date = get_birth_date(date)
+        self.phone_number = personal_data_generator.get_phone_number()
+        self.address = personal_data_generator.get_address(customer=True)
+        self.birth_date = personal_data_generator.get_birth_date(date)
         self.account_creation_date = date
         self.account_deletion_date = None
         self.last_active = date
