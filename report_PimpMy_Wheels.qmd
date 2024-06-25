@@ -1,0 +1,411 @@
+---
+date: "20240628"
+lang: pl
+title: Bazy
+authors:
+    - vla val
+
+format: 
+  pdf:
+    code-line-numbers: true
+    colorlinks: false
+    documentclass: mwart
+    latex-tinytex: false
+    number-sections: true
+    papersize: a4paper
+    pdf-engine: lualatex
+
+callout-appearance: simple
+date-format: long
+highlight-style: pygments
+suppress-bibliography: true
+echo: false
+warning: false
+---
+
+# Raport
+
+
+
+```{python}
+import importlib.util
+import sys
+import os
+import sqlalchemy as sa
+from dotenv import load_dotenv
+from sqlalchemy.sql import text
+from sqlalchemy import func,  extract, cast, Date
+import pandas as pd
+import matplotlib.pyplot as plt
+from IPython.display import Markdown
+from sqlalchemy.orm import aliased
+
+
+from src.models.customer import Customer
+from src.models.vehicle import Vehicle
+from src.models.employee import Employee
+from src.models.equipment import Equipment
+from src.models.inventory import Inventory
+from src.models.service import Service
+from src.models.workshop import Workshop
+from src.models.transaction import Transaction
+
+```
+
+
+```{python}
+#puszczamy main
+spec = importlib.util.spec_from_file_location("main", "main.py")
+main = importlib.util.module_from_spec(spec)
+sys.modules["main"] = main
+spec.loader.exec_module(main)
+```
+
+```{python}
+#połączenie do bazy
+load_dotenv()
+
+url_object = sa.URL.create(
+    drivername="mariadb+mariadbconnector",
+    host="giniewicz.it",
+    username=os.getenv("LOGIN"),
+    password=os.getenv("PASSWORD"),
+    database=os.getenv("BASE"),
+)
+conn = sa.create_engine(url_object)
+Session = sa.orm.sessionmaker(bind=conn)
+session = Session()
+
+```
+
+
+
+1. Odsetek naprawianych marek pojazdów:
+```{python}
+#Całkowita liczba pojazdów
+total_vehicles = session.query(func.count(Vehicle.id)).scalar()
+
+# Liczba pojazdów dla każdej marki
+brand_counts = session.query(Vehicle.brand, func.count(Vehicle.id)).group_by(Vehicle.brand).all()
+
+# Odsetek
+brands = []
+percentages = []
+
+for brand, count in brand_counts:
+    percentage = (count / total_vehicles) * 100
+    brands.append(brand)
+    percentages.append(percentage)
+
+plt.figure(figsize=(10, 6))
+plt.bar(brands, percentages, color='skyblue')
+plt.xlabel('Brand')
+plt.ylabel('Percentage of Repairs')
+plt.title('Percentage of Repaired Vehicle Brands')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+for brand, percentage in zip(brands, percentages):
+    print(f'Odsetek napraw {brand} wynosi {percentage}')
+```
+
+10 najpopularniejszych modelów:
+
+```{python}
+popular_models = session.query(
+    Vehicle.brand,
+    Vehicle.model,
+    func.count(Vehicle.id).label('count')
+).group_by(Vehicle.brand, Vehicle.model
+).order_by(sa.desc('count')).limit(10).all()
+
+if not popular_models:
+    print("No data found for the query.")
+
+else:
+    df = pd.DataFrame(popular_models, columns=['brand', 'model', 'count'])
+
+    # Rysowanie wykresu słupkowego
+    plt.figure(figsize=(12, 6))
+    plt.barh(df['brand'] + ' ' + df['model'], df['count'], color='skyblue')
+    plt.xlabel('Number of Vehicles')
+    plt.ylabel('Brand and Model')
+    plt.title('Top 10 modelów do sprzedarzy')
+    plt.tight_layout()
+    plt.grid(True)
+    plt.show()
+```
+
+
+2.	Sporządź wykres liczby naprawianych pojazdów w każdym miesiącu pracy warsztatu.
+
+```{python}
+
+#Liczba naprawianych pojazdów w każdym miesiącu
+try:
+    monthly_repairs = session.query(
+    extract('month', Service.start_date).label('month'),
+    func.count(Service.id).label('count')
+    ).group_by('month').order_by('month').all()
+
+    if not monthly_repairs:
+        print("No data found for the query.")
+
+    else:
+        df = pd.DataFrame(monthly_repairs, columns=['month', 'count'])
+
+        df['month'] = df['month'].astype(str).str.zfill(2)
+
+        # Rysowanie wykresu słupkowego
+        plt.figure(figsize=(12, 6))
+        plt.plot(df['month'].to_numpy(), df['count'].to_numpy(), color='skyblue')
+        plt.xlabel('Miesiąc')
+        plt.ylabel('Liczba napraw')
+        plt.title('Liczba napraw w każdym miesiące')
+        plt.xticks(rotation=45)
+        plt.grid(True)
+        plt.tight_layout()
+        plt.show()
+
+except:
+    print('error')
+```
+
+
+3. tabela najlepszych okazji, czyli pojazdów skupionych i sprzedanych, które przyniosły najwięcej zysku (uwzględniając również ich naprawę, jeżeli takowa była konieczna)
+
+```{python}
+purchase_value = session.query(Transaction.id, Transaction.value).subquery()
+sale_value = session.query(Transaction.id, Transaction.value).subquery()
+
+# Pobieranie 10 najlepszych okazji
+best_deals = session.query(
+    Vehicle.brand,
+    Vehicle.model,
+    (sale_value.c.value - purchase_value.c.value).label('profit'),
+    Employee.name,
+    Employee.surname,
+    Vehicle.workshop_id
+).join(purchase_value, Vehicle.purchase_id == purchase_value.c.id
+).join(sale_value, Vehicle.sale_id == sale_value.c.id
+).join(Workshop, Vehicle.workshop_id == Workshop.id
+).join(Employee, sa.and_(Employee.workshop_id == Workshop.id, Employee.position == 'MENADŻER')
+).order_by(sa.desc('profit')
+).limit(10).all()
+
+if not best_deals:
+    print("No data found for the query.")
+
+else:
+    df = pd.DataFrame(best_deals, columns=['brand', 'model', 'profit', 'manager_name', 'manager_surname', 'workshop_id'])
+    print(df)
+```
+
+
+
+4.	Pracowniki:
+
+A.	Którzy pracownicy mają najwyższą efektywność?
+
+```{python}
+
+employee_efficiency = session.query(
+Employee.name,
+Employee.surname,
+func.count(Service.id).label('count')
+).join(Service, Employee.id == Service.employee_id
+).group_by(Employee.id
+).order_by(sa.desc('count')).all()
+
+if not employee_efficiency:
+    print("No data found for the query.")
+
+else:
+    df = pd.DataFrame(employee_efficiency, columns=['name', 'surname', 'count'])
+
+    plt.figure(figsize=(12, 6))
+    plt.barh(df['name'] + ' ' + df['surname'], df['count'], color='skyblue')
+    plt.xlabel('Liczba Napraw')
+    plt.ylabel('Pracownicy')
+    plt.title('Efektywność pracowników')
+    plt.tight_layout()
+    plt.grid(True)
+    plt.show()
+
+```
+
+
+B.	Którzy pracownicy generują największe zyski dla warsztatu?
+
+```{python}
+
+employee_profits = session.query(
+    Employee.name,
+    Employee.surname,
+    func.sum(Transaction.value).label('total_income')
+).join(Service, Employee.id == Service.employee_id
+).join(Transaction, Service.transaction_id == Transaction.id
+).filter(Transaction.transaction_type == 'income'
+).group_by(Employee.id
+).order_by(sa.desc('total_income')).all()
+
+if not employee_profits:
+    print("No data found for the query.")
+
+else:
+    df = pd.DataFrame(employee_profits, columns=['name', 'surname', 'total_income'])
+
+    plt.figure(figsize=(12, 6))
+    plt.barh(df['name'] + ' ' + df['surname'], df['total_income'], color='skyblue')
+    plt.xlabel('Zysk')
+    plt.ylabel('Pracownicy')
+    plt.title('Pracowniki generujące największy zysk')
+    plt.tight_layout()
+    plt.grid(True)
+    plt.show()
+```
+
+
+5.	Naprawy:
+
+A.	Jaki jest średni czas trwania napraw w warsztacie?
+
+```{python}
+average_duration = session.query(
+    func.avg(cast(Service.end_date, Date) - cast(Service.start_date, Date)).label('average_duration')
+).scalar()
+
+average_duration = round(average_duration, 1)
+print(f"Średni czas naprawy wynosi {average_duration} dni.")
+```
+
+B. Najbardziej popularne usługi warsztatu?
+
+```{python}
+popular_services = session.query(
+    Service.description,
+    func.count(Service.id).label('count')
+).join(Transaction, Service.transaction_id == Transaction.id
+).filter(Transaction.transaction_type == 'income'
+).group_by(Service.description
+).order_by(sa.desc('count')).all()
+
+if not popular_services:
+    print("No data found for the query.")
+
+else:
+    df = pd.DataFrame(popular_services, columns=['description', 'count'])
+
+    plt.figure(figsize=(12, 6))
+    plt.barh(df['description'], df['count'], color='skyblue')
+    plt.xlabel('Liczba usług')
+    plt.ylabel('Usługa')
+    plt.title('Najbardziej popularne usługi')
+    plt.tight_layout()
+    plt.grid(True)
+    plt.show()
+```
+
+
+C.	Najbardziej dochodowe usługi warsztatu?
+
+```{python}
+profitable_services = session.query(
+    Service.description,
+    func.sum(Transaction.value).label('total_income')
+).join(Transaction, Service.transaction_id == Transaction.id
+).filter(Transaction.transaction_type == 'income'
+).group_by(Service.description
+).order_by(sa.desc('total_income')).all()
+
+if not profitable_services:
+    print("No data found for the query.")
+
+else:
+    df = pd.DataFrame(profitable_services, columns=['description', 'total_income'])
+
+    plt.figure(figsize=(12, 6))
+    plt.barh(df['description'], df['total_income'], color='skyblue')
+    plt.xlabel('Zysk')
+    plt.ylabel('Usługa')
+    plt.title('Usługi generujące największy zysk')
+    plt.tight_layout()
+    plt.grid(True)
+    plt.show()
+```
+
+6. Ile każdy misiąc wynoszą koszty na zakup sprzętu
+
+```{python}
+
+monthly_costs = session.query(
+extract('month', Inventory.delivery_date).label('month'),
+func.sum(Equipment.cost).label('total_cost')
+).join(Equipment, Inventory.equipment_id == Equipment.id
+).group_by('month'
+).order_by('month').all()
+
+
+if not monthly_costs:
+    print("No data found for the query.")
+
+else:
+    df = pd.DataFrame(monthly_costs, columns=['month', 'total_cost'])
+
+    plt.figure(figsize=(12, 6))
+    plt.plot(df['month'].astype(str).str.zfill(2).to_numpy(), df['total_cost'].to_numpy(), color='skyblue')
+    plt.xlabel('Miesiąc')
+    plt.ylabel('Korzty')
+    plt.title('Korzty sprzętu przez każdy miesiąc')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+```
+
+
+7. Klienci:
+
+A. Liczba nowych klientów każdy miesiąc
+
+```{python}
+new_customers = session.query(
+    extract('month', Customer.account_creation_date).label('month'),
+    func.count(Customer.id).label('count')
+).group_by('month'
+).order_by('month').all()
+
+
+if not new_customers:
+    print("No data found for the query.")
+
+else:
+    df = pd.DataFrame(new_customers, columns=['month', 'count'])
+
+    plt.figure(figsize=(12, 6))
+    plt.plot(df['month'].astype(str).str.zfill(2).to_numpy(), df['count'].to_numpy(), color='skyblue')
+    plt.xlabel('Miesiąc')
+    plt.ylabel('Liczba nowych klientów')
+    plt.title('Przychód klientów przez każdy miesiąc')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.grid(True)
+    plt.show()
+```
+
+B. Średni czas istnienia konta klienta
+
+```{python}
+average_account_duration = session.query(
+    func.avg(
+        cast(Customer.account_deletion_date, Date) - cast(Customer.account_creation_date, Date)
+    ).label('average_duration')
+).scalar()
+
+
+average_account_duration_rounded = round(average_account_duration, 1)
+
+print(f"Sredni czas istnienia konta klienta wynosi {average_account_duration_rounded} dni.")
+```
+
+
