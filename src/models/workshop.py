@@ -15,7 +15,7 @@ class Workshop(Base):
         autoincrement=True,
         nullable=False,
     )
-    address = sa.Column("address", sa.String(200), nullable=False)
+    address = sa.Column("address", sa.String(100), nullable=False)
     phone_number = sa.Column("phone_number", sa.String(12), nullable=False)
     stations_number = sa.Column(
         "number_of_stations", INTEGER(unsigned=True), nullable=False

@@ -8,19 +8,19 @@ class WorkshopDecisionMaker:
     order_types = ["repair", "buy", "sell"]
 
     def __init__(
-            self,
-            manager_salary,
-            mechanics_salary,
-            purchase_probability,
-            selling_probability,
-            repair_completion_probability,
-            service_parameters,
-            employee_resignation_probability,
-            number_of_items_in_stock,
-            personal_data_generator,
-            initial_equipment_number,
-            vehicles_info,
-            stock_replenishment_fraction
+        self,
+        manager_salary,
+        mechanics_salary,
+        purchase_probability,
+        selling_probability,
+        repair_completion_probability,
+        service_parameters,
+        employee_resignation_probability,
+        number_of_items_in_stock,
+        personal_data_generator,
+        initial_equipment_number,
+        vehicles_info,
+        stock_replenishment_fraction,
     ):
         self.manager_salary = manager_salary
         self.mechanics_salary = mechanics_salary
@@ -56,7 +56,7 @@ class WorkshopDecisionMaker:
     def choose_order_type(self, vehicles_in_stock):
         if len(vehicles_in_stock) < 3:
             repair_selling_probability = (
-                    self.repair_completion_probability + self.selling_probability
+                self.repair_completion_probability + self.selling_probability
             )
             order_probabilities = [
                 self.repair_completion_probability / repair_selling_probability,

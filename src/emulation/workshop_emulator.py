@@ -35,7 +35,10 @@ class WorkshopEmulator:
         self.employees = [self.manager] + self.mechanics
         self.equipment = equipment
         self.inventory = generate_initial_inventory(
-            date=date, equipment=self.equipment, workshop=self.workshop, n=self.decision_maker.initial_equipment_number
+            date=date,
+            equipment=self.equipment,
+            workshop=self.workshop,
+            n=self.decision_maker.initial_equipment_number,
         )
         self.inventory_in_stock = self.inventory
 
@@ -153,7 +156,8 @@ class WorkshopEmulator:
             )
             if (
                 equipment_number_in_stock
-                < self.decision_maker.number_of_items_in_stock / self.decision_maker.stock_replenishment_fraction
+                < self.decision_maker.number_of_items_in_stock
+                / self.decision_maker.stock_replenishment_fraction
             ):
                 number_to_buy = (
                     self.decision_maker.number_of_items_in_stock

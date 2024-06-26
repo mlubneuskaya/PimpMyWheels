@@ -15,8 +15,8 @@ class Customer(Base):
         nullable=False,
         autoincrement=True,
     )
-    name = sa.Column("name", sa.String(25), nullable=False)
-    surname = sa.Column("surname", sa.String(25), nullable=False)
+    name = sa.Column("name", sa.String(50), nullable=False)
+    surname = sa.Column("surname", sa.String(50), nullable=False)
     email = sa.Column("email", sa.String(60), nullable=False)
     phone_number = sa.Column("phone_number", sa.String(12), nullable=False)
     birth_date = sa.Column("birth_date", sa.Date, nullable=False)
