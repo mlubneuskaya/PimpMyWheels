@@ -339,19 +339,24 @@ Markdown(f'''Widać, że {df['name'][0] + ' ' + df['surname'][0]} wygenerował n
 ```
 
 
-### Naprawy: średni czas trwania 
+### Naprawy: średni czas trwania w każdej placówce
 Znając średni czas naprawy, warsztat może lepiej planować zasoby, takie jak zapasy części zamiennych, harmonogramy pracowników oraz obciążenie pracą. To pomaga w optymalizacji pracy i unikanie przestojów.
 
 ```{python}
-average_duration = session.query(
+average_durations = session.query(
+    Employee.workshop_id,
     func.avg(cast(Service.end_date, Date) - cast(Service.start_date, Date)).label('average_duration')
-).scalar()
+).join(Employee, Service.employee_id == Employee.id
+).group_by(Employee.workshop_id).all()
 
-average_duration = round(average_duration, 1)
-Markdown(f"""Średni czas naprawy wynosi {average_duration} dni.
+df = pd.DataFrame(average_durations, columns=['workshop_id', 'average_duration'])
 
-Średni czas naprawy wynoszący {average_duration} dni wskazuje na zdolność warsztatu do realizowania napraw w umiarkowanie krótkim czasie. Jest to korzystne zarówno dla warsztatu, jak i dla klientów, ponieważ szybkie naprawy zwiększają zadowolenie klientów i pozwalają warsztatowi obsłużyć więcej pojazdów w krótszym czasie.""")
+df['average_duration'] = round(df['average_duration'], 2)
+
+Markdown(f"""Średni czas naprawy w placówce {df['workshop_id'][0]} wynosi {df['average_duration'][0]} dni. Średni czas naprawy w placówce {df['workshop_id'][1]} wynosi {df['average_duration'][1]} dni.""")
 ```
+
+Placówka 1 jest bardziej efektywna pod względem czasu realizacji napraw w porównaniu do placówki 2. Może to wynikać z lepszej organizacji pracy, bardziej doświadczonego personelu lub dostępności niezbędnych zasobów w placówce 1.
 
 ### Naprawy: najpopularniejsze usługi warsztatu
 
