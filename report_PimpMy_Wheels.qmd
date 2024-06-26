@@ -86,7 +86,7 @@ session = Session()
 ```
 
 
-
+## Analiza
 ### Odsetek naprawianych marek pojazdów
 
 Nasz warsztat obsługuje trzy marki samochodowe: Toyota, Ford i Volkswagen. Poniższy wykres przedstawia odsetek napraw każdej z tych marek w roku 2023.
@@ -214,24 +214,19 @@ best_deals = session.query(
     Vehicle.model,
     (sale_value.c.value - purchase_value.c.value).label('profit'),
     Employee.name,
-    Employee.surname,
-    Vehicle.workshop_id
+    Employee.surname
 ).join(purchase_value, Vehicle.purchase_id == purchase_value.c.id
 ).join(sale_value, Vehicle.sale_id == sale_value.c.id
-).join(Workshop, Vehicle.workshop_id == Workshop.id
-).join(Employee, sa.and_(Employee.workshop_id == Workshop.id, Employee.position == 'MENADŻER')
+).join(Employee, Employee.position == 'MENADŻER'
 ).order_by(sa.desc('profit')
 ).limit(10).all()
 
 if not best_deals:
     print("No data found for the query.")
-
 else:
-    
-    headers = ['Brand', 'Model', 'Zysk', 'Imię Menadżera', 'Nazwisko Menadżera', 'Numer placówki']
-    
+    headers = ['Brand', 'Model', 'Zysk', 'Imię Menadżera', 'Nazwisko Menadżera']
     # Używanie tabulate do drukowania tabeli
-    print(tabulate(best_deals, headers=headers, tablefmt='grid'))
+    print(tabulate(best_deals, headers=headers))#, tablefmt='grid'))
 
 manager_sales = session.query(
         Employee.name,
@@ -509,6 +504,11 @@ Markdown(f"""Sredni czas istnienia konta klienta wynosi {average_account_duratio
 Taki średni czas wskazuje na wysoką lojalność klientów. Klienci, którzy zakładają konto w warsztacie, są skłonni korzystać z jego usług przez stosunkowo długi okres. To może świadczyć o wysokim poziomie zadowolenia z obsługi i jakości świadczonych usług. Warsztat skutecznie buduje zaufanie i utrzymuje relacje z klientami poprzez regularne przeglądy, naprawy i inne usługi.
 
 
-### Podsumowanie
+## Podsumowanie
 
 Warsztat samochodowy wykazuje wysoką efektywność operacyjną i znaczące zyski generowane przez kluczowych pracowników. Popularne i dochodowe usługi obejmują zarówno podstawowe konserwacje, jak i bardziej skomplikowane naprawy. Zarządzanie kosztami sprzętu i zrozumienie sezonowych trendów klientów może pomóc w dalszym rozwoju i zwiększeniu rentowności warsztatu. Wysoka lojalność klientów jest dowodem na jakość usług świadczonych przez warsztat, co stanowi solidną podstawę do budowania długotrwałych relacji z klientami.
+
+
+```{python}
+session.commit()
+```
