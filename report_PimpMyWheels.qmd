@@ -295,7 +295,7 @@ else:
     plt.show()
 
 
-Markdown(f"""Widać, że {df['name'][0] + ' ' + df['surname'][0]} jest najbardziej efektywnym pracownikiem, wykonując {df['count'][0]}. {df['name'][1] + ' ' + df['surname'][1]} i {df['name'][2] + ' ' + df['surname'][2]} również wykonały dużą liczbę napraw. Większość pracowników wykonała od około 80 do 120 napraw, co świadczy o ich wysokiej efektywności.
+Markdown(f"""Widać, że {df['name'][0] + ' ' + df['surname'][0]} jest najbardziej efektywnym pracownikiem, wykonując {df['count'][0]}. {df['name'][1] + ' ' + df['surname'][1]} i {df['name'][2] + ' ' + df['surname'][2]} również wykonały dużą liczbę napraw. Większość pracowników wykonała powyżej 80 napraw, co świadczy o ich wysokiej efektywności.
 
 Ogólnie, w warsztacie jest kilku pracowników o bardzo wysokiej efektywności, którzy wykonali znacznie więcej napraw niż pozostali.  Warsztat ma stabilny zespół pracowników, którzy regularnie wykonują dużą liczbę napraw, co świadczy o ich zaangażowaniu i profesjonalizmie.""")
 ```
@@ -334,7 +334,7 @@ else:
     plt.grid(True)
     plt.show()
 
-Markdown(f'''Widać, że {df['name'][0] + ' ' + df['surname'][0]} wygenerował największy zysk, wynoszący {df['total_income'][0]}. Inni pracownicy, również osiągnęli wysokie wyniki, generując zyski powyżej 70,000 PLN.
+Markdown(f'''Widać, że {df['name'][0] + ' ' + df['surname'][0]} wygenerował największy zysk, wynoszący {df['total_income'][0]}. Inni pracownicy, również osiągnęli wysokie wyniki, generując zyski powyżej 40,000 PLN.
 ''')
 ```
 
