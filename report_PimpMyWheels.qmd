@@ -12,7 +12,6 @@ format:
   pdf:
     code-line-numbers: true
     colorlinks: false
-    documentclass: mwart
     latex-tinytex: false
     number-sections: true
     papersize: a4paper
