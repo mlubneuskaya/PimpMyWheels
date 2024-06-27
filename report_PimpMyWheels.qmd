@@ -12,6 +12,7 @@ format:
   pdf:
     code-line-numbers: true
     colorlinks: false
+    documentclass: mwart
     latex-tinytex: false
     number-sections: true
     papersize: a4paper
@@ -195,9 +196,6 @@ except:
     print('error')
 ```
 
-Na początku roku liczba napraw spada. W środku roku liczba napraw jest zmienna ale utrzymuje się na stabilnie nie małym poziomie.
-
-W szczególności, w cieplejszych miesiącach, można zauważyć  wzrosty w liczbie napraw, co może wskazywać na większą aktywność klientów warsztatu w tych okresach.
 
 ### Najlepsze okazje
 
@@ -206,12 +204,13 @@ Niniejsza tabela przedstawia listę dziesięciu najleprzych okazji, czyli pojazd
 ```{python}
 purchase_value = session.query(Transaction.id, Transaction.value).subquery()
 sale_value = session.query(Transaction.id, Transaction.value).subquery()
+repair_cost_value = session.query(Service.id, Service.work_cost).subquery()
 
 # Pobieranie 10 najlepszych okazji
 best_deals = session.query(
     Vehicle.brand,
     Vehicle.model,
-    (sale_value.c.value - purchase_value.c.value).label('profit'),
+    (sale_value.c.value - purchase_value.c.value - repair_cost_value.c.work_cost).label('profit'),
     Employee.name,
     Employee.surname
 ).join(purchase_value, Vehicle.purchase_id == purchase_value.c.id
@@ -350,6 +349,7 @@ average_durations = session.query(
 
 df = pd.DataFrame(average_durations, columns=['workshop_id', 'average_duration'])
 
+df['average_duration'] = pd.to_numeric(df['average_duration'], errors='coerce')
 df['average_duration'] = round(df['average_duration'], 2)
 
 Markdown(f"""Średni czas naprawy w placówce {df['workshop_id'][0]} wynosi {df['average_duration'][0]} dni. Średni czas naprawy w placówce {df['workshop_id'][1]} wynosi {df['average_duration'][1]} dni.""")
