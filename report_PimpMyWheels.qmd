@@ -12,6 +12,7 @@ format:
   pdf:
     code-line-numbers: true
     colorlinks: false
+    documentclass: mwart
     latex-tinytex: false
     number-sections: true
     papersize: a4paper
@@ -203,13 +204,13 @@ Niniejsza tabela przedstawia listę dziesięciu najleprzych okazji, czyli pojazd
 ```{python}
 purchase_value = session.query(Transaction.id, Transaction.value).subquery()
 sale_value = session.query(Transaction.id, Transaction.value).subquery()
-repair_cost_value = session.query(Service.id, Service.work_cost).subquery()
+repair_transaction_value = session.query(Service.vehicle_id, Transaction.value).join(Transaction, Service.transaction_id == Transaction.id).subquery()
 
 # Pobieranie 10 najlepszych okazji
 best_deals = session.query(
     Vehicle.brand,
     Vehicle.model,
-    (sale_value.c.value - purchase_value.c.value - repair_cost_value.c.work_cost).label('profit'),
+   (sale_value.c.value - purchase_value.c.value - func.coalesce(repair_transaction_value.c.value, 0)).label('profit'),
     Employee.name,
     Employee.surname
 ).join(purchase_value, Vehicle.purchase_id == purchase_value.c.id
